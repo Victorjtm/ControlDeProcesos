@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalles del Paso</title>
+    <link rel="stylesheet" href="/detalle-paso.css" />
+    <style>
+      .form-group button {
+        margin-right: 10px;
+      }
+      #imagen-paso {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body data-page="detallePaso">
+    <header>
+      <ul>
+        <div id="user-info">
+        </div>
+        <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+        <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+    </ul>
+      <div id="proceso-info">
+        <p>Empresa: <span id="empresa-id"></span> - <span id="empresa-nombre"></span></p>
+        <p>Departamento: <span id="departamento-id"></span> - <span id="departamento-nombre"></span></p>
+        <p>Proceso: <span id="proceso-id"></span> - <span id="proceso-nombre"></span></p>
+      </div>
+    </header>
+    <div class="container">
+      <div id="detalle-paso-contenedor">
+        <!-- Los detalles del paso se insertarán aquí dinámicamente -->
+      </div>
+      
+      <div id="archivo-adjunto-contenedor">
+        <h3>Imagen del Paso</h3>
+        <img id="imagen-paso" src="" alt="Imagen del paso">
+        <p id="error-imagen" style="display:none;">No se pudo cargar la imagen.</p>
+      </div>
+      
+      <div class="form-group">
+        <button type="button" id="modificar">Modificar</button>
+        <button type="button" id="eliminar">Eliminar</button>
+        <button type="button" id="volver">Volver</button>
+      </div>
+    </div>
+    <script src="login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+      
+        // Aquí puedes inicializar otras funciones si es necesario
+        startTokenExpirationTimer();
+      </script>
+    <script src="obtenerUsuarioLogueado.js"></script>
+    <script src="obtenerNivelPrivilegio.js"></script>
+    <script src="detalle-paso.js"></script>
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+
+    <script>
+      console.log("Script en línea ejecutado");
+  </script>
+
+  </body>
+</html>

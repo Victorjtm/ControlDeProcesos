@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Árbol</title>
+    <link rel="stylesheet" href="/diagrama-arbol.css">
+    <!-- Incluimos D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        #tree-container {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .empresa-info {
+            color: #2ecc71; /* Un verde más vibrante */
+            margin: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            -webkit-text-stroke: 1px #27ae60; /* Borde del texto */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+            <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        
+        <h2>Diagrama de Árbol de Empresas, Departamentos y Procesos</h2>
+        <button id="toggle-procesos" style="display: none;">Mostrar/Ocultar Procesos</button>
+        <!-- Div para mostrar la información de la empresa seleccionada -->
+        <div id="empresa-info" class="empresa-info" style="display: none;">
+            <h3 id="empresa-nombre"></h3>
+        </div>
+
+        <!-- Div para mostrar mensajes de éxito o error -->
+        <div id="message-box" class="message"></div>
+
+        <div id="controls">
+            <label for="empresa-select">Selecciona una empresa:</label>
+            <select id="empresa-select">
+                <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+            </select>
+        </div>
+
+        <div id="tree-container">
+            <!-- Aquí se renderizará el diagrama de árbol -->
+        </div>
+        
+        <a href="#" id="volver-admin" class="menu-item">Volver al Menú de Administración</a>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+        startTokenExpirationTimer();
+    </script>
+    
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+    <script src="/diagrama-arbol.js"></script>
+</body>
+</html>

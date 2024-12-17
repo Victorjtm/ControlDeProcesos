@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" /> <!-- Define la codificación de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Configura la vista para dispositivos móviles -->
+    <title>Formulario de Login</title> <!-- Título de la página -->
+    <link rel="stylesheet" href="/login.css" /> <!-- Enlace al archivo de estilos CSS -->
+  </head>
+  <body data-page="login">
+    <header>
+      <div id="user-info">
+        <!-- Aquí se mostrará el nombre del usuario si está logueado -->
+        <h1>nombre</h1> <!-- Título que muestra el nombre del usuario -->
+      </div>
+    </header>
+    <div class="container">
+      <h2>Formulario de Login</h2> <!-- Encabezado del formulario de login -->
+      <!-- Div para mostrar mensajes de éxito o error -->
+      <div id="message-box" class="message"></div>
+      <!-- Formulario de inicio de sesión -->
+      <form id="loginForm" action="/api/login" method="post">
+        <div class="form-group">
+          <label for="username">Nombre de Usuario:</label> <!-- Etiqueta para el campo de nombre de usuario -->
+          <input type="text" id="username" name="username" required placeholder="3-20 caracteres" /> <!-- Campo de entrada para el nombre de usuario con placeholder -->
+          <small class="error" id="usernameError"></small> <!-- Mensaje de error para el nombre de usuario -->
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label> <!-- Etiqueta para el campo de contraseña -->
+          <input type="password" id="password" name="password" required placeholder="8-16 caracteres" /> <!-- Campo de entrada para la contraseña con placeholder -->
+          <small class="error" id="passwordError"></small> <!-- Mensaje de error para la contraseña -->
+        </div>
+        <button type="submit">Login</button> <!-- Botón para enviar el formulario -->
+        <button type="button" class="cancel" onclick="window.location.href='/'">Cancelar</button> <!-- Botón para cancelar y regresar a la página principal -->
+      </form>
+    </div>
+    <script src="validarLogin.js"></script>
+    <script src="checkUser.js"></script>
+    <script type="module">
+      import { showMessage, startTokenExpirationTimer } from './login.js';
+      window.showMessage = showMessage;
+      window.startTokenExpirationTimer = startTokenExpirationTimer;
+    
+      // Aquí puedes inicializar otras funciones si es necesario
+      startTokenExpirationTimer();
+    </script>
+    <script src="eventos.js"></script>
+  </body>
+</html>
+

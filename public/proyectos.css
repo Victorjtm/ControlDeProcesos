@@ -1,0 +1,177 @@
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#user-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+header ul > li {
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+#logout, #token-timer {
+    color: white;
+    flex-shrink: 0;
+}
+
+#time-left {
+    min-width: 50px;
+    display: inline-block;
+    text-align: right;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 20px;
+    background-color: rgb(189, 187, 187);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: 90%;
+    max-width: 1200px;
+}
+
+#proyectoList {
+    display: none;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#proyectoList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#proyectoList th, #proyectoList td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+#proyectoList th {
+    background-color: #007bff;
+    color: white;
+}
+
+#proyectoList tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#proyectoList tr:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.proyecto-info {
+    background-color: #e7f1ff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: calc(100% - 12px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+} 
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}

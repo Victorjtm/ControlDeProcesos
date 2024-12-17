@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="controlProcesos.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="4362"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="empleados_procesos" custom_title="0" dock_id="1" table="4,18:mainempleados_procesos"/><dock_state state="000000ff00000000fd00000001000000020000058100000408fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000005810000012500ffffff000002690000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="departamentos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="215"/><column index="3" value="77"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="empleados" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="5" mode="0"/></sort><column_widths><column index="0" value="123"/><column index="1" value="123"/><column index="2" value="123"/><column index="3" value="123"/><column index="4" value="123"/><column index="5" value="123"/><column index="6" value="123"/><column index="7" value="123"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="empleados_empresas" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="83"/><column index="2" value="77"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="empleados_procesos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="83"/><column index="2" value="72"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="empresas" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="183"/><column index="3" value="300"/><column index="4" value="79"/><column index="5" value="215"/><column index="6" value="79"/><column index="7" value="47"/><column index="8" value="62"/><column index="9" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="procesos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="287"/><column index="3" value="300"/><column index="4" value="109"/><column index="5" value="96"/><column index="6" value="112"/><column index="7" value="159"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="puestos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="52"/><column index="3" value="300"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="user_empresas" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="52"/><column index="2" value="77"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">INSERT INTO departamentos (nombre, empresa_id) VALUES
+('Desarrollo de Software', 1),
+('Recursos Humanos', 2),
+('Energía Renovable', 3),
+('Atención al Cliente', 4),
+('Investigación y Desarrollo', 5);
+
+INSERT INTO empleados (nombre, puesto_id, email, telefono, departamento_id)
+VALUES
+    ('Juan Pérez', 1, 'juan.perez@techsolutions.com', '912345001', 1),  -- CEO en Desarrollo de Software
+    ('Ana García', 2, 'ana.garcia@finanzasglobales.com', '933456002', 2),  -- CTO en Recursos Humanos
+    ('Carlos Ruiz', 3, 'carlos.ruiz@ecoenergia.com', '961234003', 3),  -- CFO en Energía Renovable
+    ('Marta López', 4, 'marta.lopez@saludyvida.com', '954321004', 4),  -- COO en Atención al Cliente
+    ('Luis Hernández', 5, 'luis.hernandez@innovatech.com', '944567005', 5),  -- CMO en Investigación y Desarrollo
+    ('Laura Martínez', 2, 'laura.martinez@techsolutions.com', '912345006', 1),  -- CTO en Desarrollo de Software
+    ('José Gómez', 3, 'jose.gomez@finanzasglobales.com', '933456007', 2),  -- CFO en Recursos Humanos
+    ('Elena Sánchez', 4, 'elena.sanchez@ecoenergia.com', '961234008', 3),  -- COO en Energía Renovable
+    ('Miguel Fernández', 5, 'miguel.fernandez@saludyvida.com', '954321009', 4),  -- CMO en Atención al Cliente
+    ('Sandra Torres', 1, 'sandra.torres@innovatech.com', '944567010', 5);  -- CEO en Investigación y Desarrollo
+	
+INSERT INTO procesos (id, nombre, descripcion, departamento_id, responsable_id, proceso_padre_id)
+VALUES
+    (1, 'Desarrollo de Aplicaciones Móviles', 'Creación y mantenimiento de aplicaciones móviles para clientes.', 1, 1, NULL),  -- Proceso en Desarrollo de Software, responsable Juan Pérez (CEO)
+    (2, 'Selección de Personal', 'Proceso de reclutamiento y selección de nuevos empleados.', 2, 7, NULL),  -- Proceso en Recursos Humanos, responsable José Gómez (CFO)
+    (3, 'Optimización de Energía Solar', 'Investigación y desarrollo de mejoras en la eficiencia de paneles solares.', 3, 3, NULL),  -- Proceso en Energía Renovable, responsable Carlos Ruiz (CFO)
+    (4, 'Atención Postventa', 'Soporte y atención al cliente después de la venta.', 4, 9, NULL),  -- Proceso en Atención al Cliente, responsable Miguel Fernández (CMO)
+    (5, 'Investigación de Nuevas Tecnologías', 'Exploración y desarrollo de tecnologías emergentes.', 5, 5, NULL);  -- Proceso en Investigación y Desarrollo, responsable Luis Hernández (CMO)
+INSERT INTO empleados_procesos (empleado_id, proceso_id)
+VALUES
+    (1, 1),  -- Juan Pérez (CEO) asignado al proceso Desarrollo de Aplicaciones Móviles
+    (2, 1),  -- María López (CTO) también asignada al proceso Desarrollo de Aplicaciones Móviles
+    (7, 2),  -- José Gómez (CFO) asignado al proceso Selección de Personal
+    (8, 2),  -- Marta Sánchez (COO) también asignada al proceso Selección de Personal
+    (3, 3),  -- Carlos Ruiz (CFO) asignado al proceso Optimización de Energía Solar
+    (4, 3),  -- Ana García (COO) también asignada al proceso Optimización de Energía Solar
+    (9, 4),  -- Miguel Fernández (CMO) asignado al proceso Atención Postventa
+    (10, 4), -- Laura González (CTO) también asignada al proceso Atención Postventa
+    (5, 5),  -- Luis Hernández (CMO) asignado al proceso Investigación de Nuevas Tecnologías
+    (6, 5);  -- Pedro Rodríguez (CTO) también asignado al proceso Investigación de Nuevas Tecnologías
+INSERT INTO empleados_empresas (empleado_id, empresa_id)
+VALUES
+    (1, 1),  -- Juan Pérez (CEO) asignado a Tech Solutions S.A.
+    (2, 1),  -- María López (CTO) asignada a Tech Solutions S.A.
+    (3, 2),  -- Carlos Ruiz (CFO) asignado a Finanzas Globales S.L.
+    (4, 2),  -- Ana García (COO) asignada a Finanzas Globales S.L.
+    (5, 3),  -- Luis Hernández (CMO) asignado a Eco Energía Ltda.
+    (6, 3),  -- Pedro Rodríguez (CTO) asignado a Eco Energía Ltda.
+    (7, 2),  -- José Gómez (CFO) asignado a Finanzas Globales S.L.
+    (8, 4),  -- Marta Sánchez (COO) asignada a Salud y Vida Corp.
+    (9, 4),  -- Miguel Fernández (CMO) asignado a Salud y Vida Corp.
+    (10, 5); -- Laura González (CTO) asignada a Innovatech Ltd.
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

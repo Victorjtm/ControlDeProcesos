@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Promesas</title>
+    <link rel="stylesheet" href="/promesas.css" />
+</head>
+<body data-page="promesas">
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout">Logout</a></li>
+            <li id="token-timer">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <div id="promesaList" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Promesa</th>
+                        <th>Nº Orden</th>
+                        <th>Nombre de la Promesa</th>
+                        <th>Tipo de Promesa</th>
+                        <th>Promesa Siguiente</th>
+                        <th>Dirección de Flecha</th>
+                        <th>Rama Verdadera</th>
+                        <th>Rama Falsa</th>
+                        <th>Inicio de Bucle</th>
+                        <th>Fin de Bucle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-container">
+            <div id="message-box" class="message"></div>
+
+            <form id="promesaForm" action="/registroPromesas" method="post">
+                <h2>Formulario de Gestión de Promesas</h2>
+
+                <div class="proyecto-info">
+                    <h3>Proyecto Actual</h3>
+                    <h2><span id="proyecto_id_display">No seleccionado</span> <span id="proyecto_nombre_display"></span></h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre_promesa">Nombre de la Promesa:</label>
+                    <input type="text" id="nombre_promesa" name="nombre_promesa" maxlength="20" required />
+                    <small class="error" id="nombre_promesaError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="num_orden_promesa">Número de Orden:</label>
+                    <input type="number" id="num_orden_promesa" name="num_orden_promesa" required />
+                    <small class="error" id="num_orden_promesaError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo_promesa">Tipo de Promesa:</label>
+                    <select id="tipo_promesa" name="tipo_promesa" required>
+                        <option value="">Seleccione un tipo</option>
+                        <!-- Las opciones se generarán dinámicamente con JavaScript -->
+                    </select>
+                    <small class="error" id="tipo_promesaError"></small>
+                </div>
+
+                <!-- Campo para el ID de la siguiente promesa -->
+                <div class="form-group">
+                    <label for="siguiente_promesa_id">ID de la Siguiente Promesa:</label>
+                    <input type="number" id="siguiente_promesa_id" name="siguiente_promesa_id" min="1" />
+                    <small class="error" id="siguiente_promesa_idError"></small>
+                </div>
+
+                <!-- Campo para la dirección de la flecha -->
+                <div class="form-group">
+                    <label for="direccion_flecha_id">Dirección de la Flecha:</label>
+                    <select id="direccion_flecha_id" name="direccion_flecha_id" required>
+                        <option value="">Seleccione una dirección</option>
+                        <!-- Las opciones se generarán dinámicamente con JavaScript -->
+                    </select>
+                </div>
+
+                <!-- Nuevos campos para ramas verdadera/falsa y inicio/fin de bucle -->
+                <div id="rama_verdadera_container" class="form-group" style="display: none;">
+                    <label for="rama_verdadera_id">ID de la Rama Verdadera:</label>
+                    <input type="number" id="rama_verdadera_id" name="rama_verdadera_id" min="1" />
+                    <small class="error" id="rama_verdadera_idError"></small>
+                </div>
+
+                <div id="rama_falsa_container" class="form-group" style="display: none;">
+                    <label for="rama_falsa_id">ID de la Rama Falsa:</label>
+                    <input type="number" id="rama_falsa_id" name="rama_falsa_id" min="1" />
+                    <small class="error" id="rama_falsa_idError"></small>
+                </div>
+
+                <div id="inicio_bucle_container" class="form-group" style="display: none;">
+                    <label for="inicio_bucle_id">ID del Inicio del Bucle:</label>
+                    <input type="number" id="inicio_bucle_id" name="inicio_bucle_id" min="1" />
+                    <small class="error" id="inicio_bucle_idError"></small>
+                </div>
+
+                <div id="fin_bucle_container" class="form-group" style="display: none;">
+                    <label for="fin_bucle_id">ID del Fin del Bucle:</label>
+                    <input type="number" id="fin_bucle_id" name="fin_bucle_id" min="1" />
+                    <small class="error" id="fin_bucle_idError"></small>
+                </div>
+
+                <!-- Campo oculto id -->
+                <input type="hidden" id="promesa_id_display" name="promesa_id" value="">
+
+                <div class="button-container">
+                    <button id="registrarPromesa" style="display: none;">Registrar Promesa</button>
+                    <button id="modificarPromesa" style="display: none;">Modificar Promesa</button>
+                    <button type="button" id="eliminarPromesa" style="display: none;">Eliminar Promesa</button>
+                    <button type="button" id="ordenarAlfabeticamente">Ordenar Alfabéticamente</button>
+                    <button type="button" id="ordenarPorNumero">Ordenar por Nº de Orden</button>
+                    <button type="button" id="mostrarPromesas">Mostrar Promesas</button>
+                    <button type="button" id="limpiarFormulario">Limpiar Formulario</button>
+                    <button type="button" id="btnVolverProyectos">Volver a Proyectos</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+    
+        startTokenExpirationTimer();
+    </script>
+    <script src="/eventos.js"></script>
+    <script src="/promesas.js"></script>
+    <script src="/mensaje.js"></script>
+
+</body>
+</html>

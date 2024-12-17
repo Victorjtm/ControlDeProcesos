@@ -1,0 +1,92 @@
+/* Estilo para el fondo de pantalla */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #c0c9c4;
+    background-image: url('/imagenes/iniControlProcesos.jpg');
+    background-size:contain; /* Asegura que la imagen cubra todo el fondo */
+    background-position: center; /* Centra la imagen en la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+
+
+/* Centramos el contenido */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px); /* Ajustamos el tamaño restando el header */
+}
+
+.start-button {
+    padding: 15px 30px;
+    font-size: 34px;
+    color: white;
+    background-color: #00abee; /* Azul cielo */
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 650px; /* Ajusta este valor para bajar el botón */
+}
+
+
+.start-button:hover {
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    background-color: #00BFFF; /* Un poco más oscuro al pasar el ratón */
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#user-info {
+    font-weight: bold;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}

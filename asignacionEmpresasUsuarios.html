@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignación de Empresas a Usuarios</title>
+    <link rel="stylesheet" href="/asignarEmpresasUsuarios.css" />
+</head>
+<body data-page="asignar_empresas_usuarios">
+    <header>    
+        <div id="user-info">
+            <h1>Asignación de Empresas a Usuarios</h1>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Seleccione Usuarios y Empresas para Asignar</h2>
+        <div id="message-box" class="message"></div>
+
+        <div class="lists-container">
+            <!-- Lista de Usuarios -->
+            <div class="user-list">
+                <h3>Usuarios</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seleccionar</th>
+                            <th>ID</th>
+                            <th>Nombre de Usuario</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTabla">
+                        <!-- Los usuarios se cargarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Lista de Empresas -->
+            <div class="empresa-list">
+                <h3>Empresas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seleccionar</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>NIF</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empresasTabla">
+                        <!-- Las empresas se cargarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contenedor para los botones -->
+        <div class="button-container">
+            <button id="asignarBtn">Asignar Empresas a Usuarios</button>
+            <button type="button" onclick="window.location.href='/';">Cancelar</button>
+        </div>
+    </div>
+
+    <script src="/asignarEmpresasUsuarios.js"></script> <!-- Script para manejar la lógica de asignación -->
+    <script src="/checkuser.js"></script>
+    <script src="/eventos.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Registro de Procesos</title>
+    <link rel="stylesheet" href="/registro.css" />
+    <style>
+        .form-group button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body data-page="registroProcesos">
+    <header>
+        <div id="user-info">
+            <h1>Registro de Procesos</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div id="procesoList" style="display:none; margin-top: 20px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Departamento</th>
+                        <th>Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="departamentoList" style="display:none; margin-top: 20px;">
+            <!-- Aquí se mostrará la lista de departamentos -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="empresaList" style="display:none; margin-top: 20px;">
+            <!-- Aquí se mostrará la lista de empresas -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contenedorAsociaciones" style="display: none;">
+            <table id="tablaAsociaciones">
+                <thead>
+                    <tr>
+                        <th>ID Proceso</th>
+                        <th>Nombre Proceso</th>
+                        <th>ID Departamento</th>
+                        <th>Nombre Departamento</th>
+                        <th>ID Empresa</th>
+                        <th>Nombre Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas se llenarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contenedorProcesos" style="display: none;">
+            <table id="tablaProcesos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los procesos se insertarán aquí -->
+                </tbody>
+            </table>
+        </div>
+
+        <form id="registroProcesoForm" action="/registroProceso" method="post" onsubmit="return validarFormularioProceso()">
+            <h2>Formulario de Registro de Procesos</h2>
+            <div class="form-group">
+                <label for="proceso_id">ID del Proceso:</label>
+                <input type="text" id="proceso_id" name="proceso_id" />
+                <small class="error" id="procesoIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreProceso">Nombre del Proceso:</label>
+                <input type="text" id="nombreProceso" name="nombreProceso" required />
+                <small class="error" id="nombreError"></small>
+            </div>
+            <div class="form-group">
+                <label for="descripcionProceso">Descripción del Proceso:</label>
+                <textarea id="descripcionProceso" name="descripcionProceso" rows="2"></textarea>
+                <small class="error" id="descripcionError"></small>
+            </div>
+            <div class="form-group">
+                <label for="departamento_id">ID del Departamento:</label>
+                <input type="text" id="departamento_id" name="departamento_id" />
+                <small class="error" id="departamentoIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreDepartamento">Nombre del Departamento:</label>
+                <input type="text" id="nombreDepartamento" name="nombreDepartamento" />
+                <small class="error" id="departamentoNombreError"></small>
+            </div>
+            <div class="form-group">
+                <label for="empresa_id">ID de la Empresa:</label>
+                <input type="text" id="empresa_id" name="empresa_id" />
+                <small class="error" id="empresaIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                <input type="text" id="nombreEmpresa" name="nombreEmpresa" />
+                <small class="error" id="empresaNombreError"></small>
+            </div>
+            <div class="form-group" id="mensaje"></div>
+            <button type="submit">Registrar</button>
+            <button type="button" id="asignado">Asignaciones</button>
+            <button type="button" id="eliminarProceso">Eliminar</button>
+            <button type="button" id="volverButton">Volver</button>
+            <button type="button" id="mostrarProcesos">Mostrar Procesos</button>
+            <div class="asignacion-buttons">
+                <button type="button" id="mostrarDepartamentosProcesos">Asignar Departamento</button>
+                <button type="button" id="mostrarEmpresasProcesos">Asignar Empresa</button>
+                <small class="asignacion-description">Asignan sin comprobar asociación</small>
+            </div>
+            
+            </form>
+            </div>
+
+    <script src="checkuser.js"></script>
+    <script src="obtenerUsuarioLogueado.js"></script>
+    <script src="obtenerNivelPrivilegio.js"></script>
+    <script src="validacionProcesos.js"></script>
+    <script src="mensaje.js"></script>
+    <script src="eventos.js"></script>
+    <script src="procesos.js"></script>
+</body>
+</html>

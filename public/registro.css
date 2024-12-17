@@ -1,0 +1,269 @@
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#user-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+header ul > li {
+  margin-left: 15px;
+  white-space: nowrap;
+}
+
+#logout, #token-timer {
+  color: white;
+  flex-shrink: 0;
+}
+
+#time-left {
+  min-width: 50px;
+  display: inline-block;
+  text-align: right;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding-top: 60px; /* Espacio superior para evitar que el contenido se oculte detrás del header */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: calc(100% - 12px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px; /* Espacio entre botones */
+  margin-bottom: 10px; /* Espacio inferior para separación vertical */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+  display: none;
+}
+
+/* Alinea los botones en línea */
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Ajusta los botones si no caben en una línea */
+}
+
+#empresaList, #userList {
+  display: none; /* Ocultar por defecto */
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin: auto;
+}
+
+/* Estilo para las tablas dentro de #empresaList y #userList */
+#empresaList table, #userList table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#empresaList th, #userList th,
+#empresaList td, #userList td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#empresaList th, #userList th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Cambia el color de fondo de la fila al pasar el puntero */
+#empresaList tr:hover, #userList tr:hover {
+  background-color: #e0e0e0; /* Color de fondo al pasar el puntero */
+  cursor: pointer; /* Cambia el cursor para indicar que es seleccionable */
+}
+#departamentoList {
+  display: none; /* Ocultar por defecto */
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin: auto;
+}
+
+/* Estilo para las tablas dentro de #departamentoList */
+#departamentoList table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#departamentoList th,
+#departamentoList td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#departamentoList th {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Cambia el color de fondo de la fila al pasar el puntero */
+#departamentoList tr:hover {
+  background-color: #e0e0e0; /* Color de fondo al pasar el puntero */
+  cursor: pointer; /* Cambia el cursor para indicar que es seleccionable */
+}
+/* Estilo para las tablas dentro de #procesoList */
+#procesoList table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#procesoList th,
+#procesoList td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#procesoList th {
+  background-color: #28a745; /* Cambiado a un tono de verde para diferenciar */
+  color: white;
+}
+
+/* Cambia el color de fondo de la fila al pasar el puntero */
+#procesoList tr:hover {
+  background-color: #e8f5e9; /* Color de fondo al pasar el puntero, tono verde claro */
+  cursor: pointer; /* Cambia el cursor para indicar que es seleccionable */
+}
+
+/* Estilo adicional para mejorar la visualización de los procesos */
+#procesoList .proceso-nombre {
+  font-weight: bold;
+}
+
+#procesoList .proceso-descripcion {
+  font-style: italic;
+  color: #666;
+}
+
+#procesoList .proceso-departamento {
+  color: #007bff;
+}
+
+#procesoList .proceso-empresa {
+  color: #6c757d;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+#tablaAsociaciones {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#tablaAsociaciones th, #tablaAsociaciones td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#tablaAsociaciones th {
+  background-color: #f2f2f2;
+}
+
+#tablaAsociaciones tbody tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.asignacion-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.asignacion-buttons button {
+  margin-bottom: 5px;
+}
+
+.asignacion-description {
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 5px;
+}

@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    background-image: url('/imagenes/iniControlProcesos.jpg');
+    margin: 0;
+    padding-top: 60px; /* Espacio superior para evitar que el contenido se oculte detrás del header */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+}
+
+#user-info {
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(189, 187, 187);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: 90%; /* Ancho más amplio para acomodar las listas */
+    max-width: 1200px; /* Tamaño máximo para mantener una buena presentación */
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8em;
+    color: #333;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: none; /* Oculto por defecto */
+    width: 100%;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.lists-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las listas se ajusten en dispositivos pequeños */
+    justify-content: space-between;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    gap: 20px; /* Espacio entre las listas */
+}
+
+.user-list, .empresa-list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 45%; /* Toma el 45% del ancho con la capacidad de ajustar en pantallas pequeñas */
+    max-width: 600px; /* Tamaño máximo para las listas */
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 1.5em;
+    color: #007bff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+    cursor: pointer; /* Indica que la fila es interactiva */
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: center; /* Centra el botón */
+}
+
+button:hover {
+    background-color: #0056b3;
+}

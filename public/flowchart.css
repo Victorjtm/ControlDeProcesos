@@ -1,0 +1,224 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+/* Estilos del encabezado */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#user-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+header ul > li {
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+#logout, #token-timer {
+    color: white;
+    flex-shrink: 0;
+}
+
+#time-left {
+    min-width: 50px;
+    display: inline-block;
+    text-align: right;
+}
+
+/* Estilos del contenedor principal */
+.container {
+    max-width: 2000px;
+    margin: 80px auto 20px;
+    padding: 20px;
+    background-color: #a5a3a3;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el mensaje */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Estilos para el diagrama de flujo */
+#flowchart-container {
+    width: 100%;
+    height: 800px;
+    overflow: auto;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Estilos para el selector de proyectos */
+#controls {
+    margin-bottom: 20px;
+}
+
+#proyecto-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Estilos para la información del proyecto */
+.proyecto-info {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.proyecto-info h3 {
+    margin: 0;
+    color: #2e7d32;
+}
+
+
+
+/* Estilos para los botones */
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el enlace de volver */
+.menu-item {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.menu-item:hover {
+    background-color: #218838;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    #flowchart-container {
+        height: 400px;
+    }
+
+    button, .menu-item {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Estilos para los nodos del diagrama */
+.node circle {
+    fill: #fff; /* Color de fondo */
+    stroke: #4CAF50; /* Color del borde */
+    stroke-width: 3px;
+}
+
+.node text {
+    font: 12px sans-serif;
+    fill: #333; /* Color del texto */
+}
+
+.node--internal text {
+    text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+/* Estilos para los enlaces entre nodos */
+.link {
+    fill: none;
+   
+    stroke-width: 2px;
+}
+
+/* Estilos específicos para cada tipo de nodo */
+.node.oval {
+    fill: #e8f5e9; /* Color de fondo para óvalos */
+}
+
+.node.rectangle {
+    fill: #bbdefb; /* Color de fondo para rectángulos */
+}
+
+.node.diamond {
+    fill: #ffe0b2; /* Color de fondo para rombos */
+}
+
+.leyenda text {
+    font-size: 12px;
+    fill: #333;
+}
+
+.leyenda line {
+    stroke-width: 2;
+}

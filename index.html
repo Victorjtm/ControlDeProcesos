@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Aplicación</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="index">
+    <header>
+        <nav>
+            <div id="user-info">
+                <!-- Aquí se mostrará el nombre del usuario si está logueado -->
+            </div>
+            <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+                <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="center-content">
+            <button id="start-button" class="start-button">Start</button>
+        </div>
+    </main>
+
+    <script src="/checkLongeado.js"></script>
+    <script src="/obtenerNivelPrivilegio.js"></script>
+    <script src="/eventos.js"></script>
+    <script src="/tokenTimer.js"></script>
+</body>
+</html>
+
+

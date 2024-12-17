@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Registro de Empresas</title>
+    <link rel="stylesheet" href="/registro.css" />
+    <style>
+        /* Estilos para los botones */
+        .form-group button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body data-page="registroEmpresas">
+    <header>
+        <div id="user-info">
+            <h1>Registro de Empresas</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div id="empresaList" style="display:none; margin-top: 20px;">
+            <!-- Aquí se mostrará la lista de empresas -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <form id="registroEmpresaForm" action="/registroEmpresa" method="post" onsubmit="return validarFormularioEmpresa()">
+            <h2>Formulario de Registro de Empresas</h2>
+            <!-- Div para mostrar mensajes de éxito o error -->
+            <div id="message-box" class="message"></div>
+            <div class="form-group">
+                <label for="nombre">Nombre de la Empresa:</label>
+                <input type="text" id="nombreEmpresa" name="nombreEmpresa" required />
+                <small class="error" id="nombreError"></small>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" required />
+                <small class="error" id="direccionError"></small>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" required />
+                <small class="error" id="telefonoError"></small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+                <small class="error" id="emailError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nif">NIF:</label>
+                <input type="text" id="nif" name="nif" required />
+                <small class="error" id="nifError"></small>
+            </div>
+            <div class="form-group">
+                <label for="ceo_id">ID del CEO:</label>
+                <input type="text" id="ceo_id" name="ceo_id" required />
+                <small class="error" id="ceoIdError"></small>
+            </div>
+            <div class="form-group" id="mensaje"></div>
+            <button type="submit">Registrar</button>
+            <button type="button" id="modificarEmpresa">Modificar</button>
+            <button type="button" id="eliminarEmpresa">Eliminar</button>
+            <button type="button" onclick="window.location.href='/';">Cancelar</button>
+            <button type="button" id="mostrarEmpresas">Mostrar Empresas</button> <!-- Nuevo botón añadido -->
+        </form>
+    </div>
+
+    <script src="login.js"></script>
+    <script src="checkuser.js"></script>
+    <script src="obtenerUsuarioLogueado.js"></script>
+    <script src="obtenerNivelPrivilegio.js"></script>
+    <script src="validacionEmpresas.js"></script>
+    <script src="mensaje.js"></script>
+    <script src="eventos.js"></script>
+    <script src="empresas.js"></script> <!-- Archivo donde se manejará la lógica de las empresas -->
+    
+</body>
+</html>

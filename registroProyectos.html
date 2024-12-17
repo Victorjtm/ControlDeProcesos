@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Proyectos</title>
+    <link rel="stylesheet" href="/proyectos.css" />
+</head>
+<body data-page="proyectos">
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout">Logout</a></li>
+            <li id="token-timer">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <div id="proyectoList">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Proyecto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-container">
+            <div id="message-box" class="message"></div>
+
+            <form id="proyectoForm" action="/registroProyectos" method="post" onsubmit="return validarFormularioProyecto()">
+                <h2>Formulario de Registro de Proyecto</h2>
+
+                <div class="proyecto-info">
+                    <h3>Proyecto Actual</h3>
+                    <h2><span id="proyecto_id_display">No seleccionado</span> <span id="proyecto_nombre_display"></span></h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre_proyecto">Nombre del Proyecto:</label>
+                    <input type="text" id="nombre_proyecto" name="nombre_proyecto" maxlength="30" required />
+                    <small class="error" id="nombre_proyectoError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion_proyecto">Descripción del Proyecto:</label>
+                    <textarea id="descripcion_proyecto" name="descripcion_proyecto" rows="4"></textarea>
+                    <small class="error" id="descripcion_proyectoError"></small>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="registrarProyecto" style="display: none;">Registrar Proyecto</button> 
+                    <button type="button" id="mostrarProyectos">Mostrar Proyectos</button>
+                    <button type="button" id="eliminarProyecto">Eliminar Proyecto</button>
+                    <button type="button" id="gestionarPromesas">Gestionar Promesas</button>
+                    <button type="button" id="verDiagramaFlujo">Ver Diagrama de Flujo</button>
+                    <button type="button" id="limpiarFormulario">Dejar el formulario en blanco</button>
+                    <button type="button" id="modificarProyecto" style="display: none;">Modificar Proyecto</button>
+                    <button type="button" id="btnCancelar">Volver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+    
+        startTokenExpirationTimer();
+    </script>
+    
+    <script src="/proyecto.js"></script>
+    <script src="/eventos.js"></script>
+</body>
+</html>

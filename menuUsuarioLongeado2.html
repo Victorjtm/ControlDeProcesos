@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú de Administración</title>
+    <link rel="stylesheet" href="/adminMenu.css" />
+</head>
+<body data-page="menuUsuarioLongeado2">
+    <header>
+        <header>
+            <header>
+                <ul>
+                    <li id="user-info"></li>
+                    <li id="empresa-info">Empresa: <span id="empresa-nombre"></span></li>
+                    <li id="token-timer">Tiempo: <span id="time-left"></span></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+                </ul>
+            </header>
+        </header>
+    </header>
+    <div class="container">
+        <div id="empresaList" style="display:none; margin-top: 20px;">
+            <!-- Aquí se mostrará la lista de empresas -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        <h2>Menú de Administración</h2>
+        <!-- Div para mostrar mensajes de éxito o error -->
+        <div id="message-box" class="message"></div>
+        <!-- Menú de administración -->
+        <div class="menu">
+            <a href="/gestion-usuarios" class="menu-item">Gestión de Usuarios</a>
+            <a href="#" id="eleccion-empresas" class="menu-item">Elección de Empresas</a>
+            <a href="/gestion-departamentos" class="menu-item">Gestión de Departamentos</a>
+            <a href="/gestion-procesos" class="menu-item">Gestión de Procesos</a>
+            <a href="/gestion-rutas" class="menu-item">Gestión de Rutas</a>
+            <a href="/gestion-vistas" class="menu-item">Mostrar Todo</a>
+        </div>
+    </div>
+    
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+      
+        // Aquí puedes inicializar otras funciones si es necesario
+        startTokenExpirationTimer();
+    </script>
+      
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+    <script src="/usuarioLongeado2.js"></script>
+</body>
+</html>

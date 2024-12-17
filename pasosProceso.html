@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasos del Proceso</title>
+    <link rel="stylesheet" href="/pasos.css">
+</head>
+<body data-page="pasosProceso">
+    <header>
+        <ul>
+            <div id="user-info">
+            </div>
+            <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+            <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+        <div id="proceso-info">
+            <p>Empresa: <span id="empresa-nombre"></span></p>
+            <p>Departamento: <span id="departamento-nombre"></span></p>
+            <p>Proceso: <span id="proceso-nombre"></span></p>
+            <button id="toggle-tabla">Ocultar Tabla</button>
+            <button id="toggle-visual">Ocultar Ventanas</button>  
+            <button id="modificar-paso">Modificar Paso</button>
+            <button id="insertar-paso">Insertar Nuevo Paso</button>
+            <button id="volver">Volver</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="pasos-container">
+            <div class="pasos-lista">
+                <table id="pasos-tabla">
+                    <thead>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Descripción Corta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los pasos se llenarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="pasos-visual">
+                <!-- Los pasos visuales se llenarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="checkuser.js"></script>
+    <script src="obtenerUsuarioLogueado.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+      
+        // Aquí puedes inicializar otras funciones si es necesario
+        startTokenExpirationTimer();
+    </script>
+    <script src="pasos.js"></script>
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+</body>
+</html>

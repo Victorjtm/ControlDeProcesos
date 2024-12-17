@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Registro de Departamentos</title>
+    <link rel="stylesheet" href="/registro.css" />
+    <style>
+        .form-group button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body data-page="registroDepartamentos">
+    <header>
+        <div id="user-info">
+            <h1>Registro de Departamentos</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div id="departamentoList" style="display:none; margin-top: 20px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="empresaList" style="display:none; margin-top: 20px;">
+            <!-- Aquí se mostrará la lista de empresas -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+              <!-- Div para mostrar mensajes de éxito o error -->
+        <div id="message-box" class="message"></div>
+        <form id="registroDepartamentoForm" action="/registroDepartamento" method="post" onsubmit="return validarFormularioDepartamento()">
+            <h2>Formulario de Registro de Departamentos</h2>
+            <div class="form-group">
+                <label for="departamento_id">ID del Departamento:</label>
+                <input type="text" id="departamento_id" name="departamento_id"  />
+                <small class="error" id="departamentoIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreDepartamento">Nombre del Departamento:</label>
+                <input type="text" id="nombreDepartamento" name="nombreDepartamento" required />
+                <small class="error" id="nombreError"></small>
+            </div>
+            <div class="form-group">
+                <label for="empresa_id">ID de la Empresa:</label>
+                <input type="text" id="empresa_id" name="empresa_id" />
+                <small class="error" id="empresaIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                <input type="text" id="nombreEmpresa" name="nombreEmpresa" />
+                <small class="error" id="empresaNombreError"></small>
+            </div>
+            <div class="form-group" id="mensaje"></div>
+            <button type="submit">Registrar</button>
+            <button type="button" id="asignado">Asignaciones</button>
+            <button type="button" id="eliminarDepartamento">Eliminar</button>
+            <button type="button" onclick="window.location.href='/';">Cancelar</button>
+            <button type="button" id="mostrarDepartamentos">Mostrar Departamentos</button>
+            <button type="button" id="mostrarEmpresasDepartamentos">Asignar Empresa</button>
+            <button type="button" id="limpiarFormulario">Limpiar Formulario</button>
+            
+        </form>
+    </div>
+
+    <script src="checkuser.js"></script>
+    <script src="obtenerUsuarioLogueado.js"></script>
+    <script src="obtenerNivelPrivilegio.js"></script>
+    <script src="validacionDepartamentos.js"></script>
+    <script src="mensaje.js"></script>
+    <script src="eventos.js"></script>
+    <script src="departamentos.js"></script>
+    <script src="/login.js"></script>
+</body>
+</html>

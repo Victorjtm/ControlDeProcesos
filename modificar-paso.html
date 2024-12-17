@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar Ruta (Paso)</title>
+    <link rel="stylesheet" href="/rutas.css" />
+    <style>
+        .empresa-info {
+            background-color: #e7f1ff;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body data-page="modificarPaso">
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+            <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <div id="message-box" class="message"></div>
+            <form id="modificarPasoForm">
+                <h2>Modificar Ruta (Paso)</h2>
+                <div class="empresa-info">
+                    <h3>Empresa</h3>
+                    <p><span id="empresa_id_display"></span> - <span id="empresa_nombre_display"></span></p>
+                </div>
+                <div class="form-group">
+                    <label for="departamento">Departamento:</label>
+                    <select id="departamento" name="departamento_id" required>
+                        <option value="">Seleccione un departamento</option>
+                        <!-- Opciones de departamentos se cargarán dinámicamente -->
+                    </select>
+                    <small class="error" id="departamentoError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="proceso">Proceso:</label>
+                    <select id="proceso" name="proceso_id" required>
+                        <option value="">Seleccione un proceso</option>
+                        <!-- Opciones de procesos se cargarán dinámicamente -->
+                    </select>
+                    <small class="error" id="procesoError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="orden">Número de Orden:</label>
+                    <input type="number" id="orden" name="orden" required min="1" />
+                    <small class="error" id="ordenError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion_corta">Descripción Corta:</label>
+                    <input type="text" id="descripcion_corta" name="descripcion_corta" required minlength="10" maxlength="255" />
+                    <small class="error" id="descripcion_cortaError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion_detallada">Descripción Detallada:</label>
+                    <textarea id="descripcion_detallada" name="descripcion_detallada" rows="4" maxlength="1000"></textarea>
+                    <small class="error" id="descripcion_detalladaError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="archivo">Archivo o Foto:</label>
+                    <div id="archivo-adjunto-contenedor">
+                        <input type="file" id="archivo" name="archivo" accept="image/*, video/*, audio/*" />
+                    </div>
+                    <small class="error" id="archivoError"></small>
+                    <button type="button" id="tomarFoto">Tomar Foto</button>
+                    <button type="button" id="grabarPantalla">Grabar Pantalla</button>
+                    <button type="button" id="grabarVideo">Grabar Video</button>
+                    <canvas id="canvas" style="display:none;"></canvas>
+                    <video id="video-preview" style="display:none;"></video>
+                </div>
+                <div class="form-group" id="mensaje"></div>
+                <div class="button-container">
+                    <button type="submit">Modificar Ruta (Paso)</button>
+                    <button type="button" id="btnCancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+        startTokenExpirationTimer();
+    </script>
+    <script src="/modificar-paso.js"></script>
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+    <script src="/captura-pantalla.js"></script>
+</body>
+</html>

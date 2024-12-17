@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Flujo de Promesas</title>
+    <link rel="stylesheet" href="/flowchart.css">
+    <!-- Incluimos D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body data-page="flowchart">
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+            <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <h2>Diagrama de Flujo de Promesas del Proyecto</h2>
+        <div id="proyecto_id_display" style="display:none;">123</div> <!-- Ejemplo de ID del proyecto -->
+        <!-- Div para mostrar la información del proyecto seleccionado -->
+        <div id="proyecto-info" class="proyecto-info">
+            <h3 id="proyecto-nombre"></h3>
+        </div>
+
+        <!-- Div para mostrar mensajes de éxito o error -->
+        <div id="message-box" class="message"></div>
+
+        <div id="flowchart-container">
+            <!-- Aquí se renderizará el diagrama de flujo -->
+        </div>
+        
+        <button id="print-diagram">Imprimir Diagrama</button>
+        <a href="#" id="volver-proyectos" class="menu-item">Volver a Gestión de Proyectos</a>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+        startTokenExpirationTimer();
+    </script>
+    
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+    <script src="/flowchart.js"></script>
+</body>
+</html>

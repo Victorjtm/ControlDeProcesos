@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Promesas</title>
+    <link rel="stylesheet" href="/promesas.css" />
+</head>
+<body data-page="promesas">
+    <header>
+        <ul>
+            <div id="user-info"></div>
+            <li><a href="#" id="logout">Logout</a></li>
+            <li id="token-timer">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <div id="promesaList">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de la Promesa</th>
+                        <th>Tipo</th>
+                        <th>Proyecto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-container">
+            <div id="message-box" class="message"></div>
+
+            <form id="promesaForm" action="/registroPromesas" method="post" onsubmit="return validarFormularioPromesa()">
+                <h2>Formulario de Gestión de Promesas</h2>
+
+                <div class="promesa-info">
+                    <h3>Promesa Actual</h3>
+                    <h2><span id="promesa_id_display">No seleccionada</span> <span id="promesa_nombre_display"></span></h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre_promesa">Nombre de la Promesa:</label>
+                    <input type="text" id="nombre_promesa" name="nombre_promesa" maxlength="20" required />
+                    <small class="error" id="nombre_promesaError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="num_orden_promesa">Número de Orden:</label>
+                    <input type="number" id="num_orden_promesa" name="num_orden_promesa" required />
+                    <small class="error" id="num_orden_promesaError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo_promesa">Tipo de Promesa:</label>
+                    <select id="tipo_promesa" name="tipo_promesa" required>
+                        <option value="">Seleccione un tipo</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
+                    <small class="error" id="tipo_promesaError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_proyecto">Proyecto:</label>
+                    <select id="id_proyecto" name="id_proyecto" required>
+                        <option value="">Seleccione un proyecto</option>
+                        <!-- Opciones se cargarán dinámicamente -->
+                    </select>
+                    <small class="error" id="id_proyectoError"></small>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="registrarPromesa">Registrar Promesa</button>
+                    <button type="button" id="mostrarPromesas">Mostrar Promesas</button>
+                    <button type="button" id="eliminarPromesa">Eliminar Promesa</button>
+                    <button type="button" id="limpiarFormulario">Limpiar Formulario</button>
+                    <button type="button" id="modificarPromesa">Modificar Promesa</button>
+                    <button type="button" id="btnCancelar">Volver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+    
+        startTokenExpirationTimer();
+    </script>
+    
+    <script src="/promesa.js"></script>
+    <script src="/eventosPromesa.js"></script>
+</body>
+</html>

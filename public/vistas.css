@@ -1,0 +1,192 @@
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#user-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+header ul > li {
+  margin-left: 15px;
+  white-space: nowrap;
+}
+
+#logout, #token-timer {
+  color: white;
+  flex-shrink: 0;
+}
+
+#time-left {
+  min-width: 50px;
+  display: inline-block;
+  text-align: right;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding-top: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: calc(100% - 12px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+  display: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#empresaList, #userList, #departamentosList, #procesosList {
+  display: none;
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin: auto;
+}
+
+#empresaList table, #userList table, #departamentosList table, #procesosList table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#empresaList th, #userList th, #departamentosList th, #procesosList th,
+#empresaList td, #userList td, #departamentosList td, #procesosList td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#empresaList th, #userList th, #departamentosList th, #procesosList th {
+  background-color: #007bff;
+  color: white;
+}
+
+#empresaList tr:hover, #userList tr:hover, #departamentosList tr:hover, #procesosList tr:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+#empresa-info, #departamento-info, #proceso-info {
+  background-color: rgb(189, 187, 187);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+#empresa-info h2, #departamento-info h2, #proceso-info h2 {
+  margin-top: 0;
+}
+
+.selected-row {
+  background-color: #b3d7ff !important;
+  font-weight: bold;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.volver-btn {
+  padding: 5px 10px;
+  background-color: #fab010;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.volver-btn:hover {
+  background-color: #e0e0e0;
+}

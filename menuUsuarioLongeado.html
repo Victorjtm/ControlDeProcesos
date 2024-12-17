@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú de Administración</title>
+    <link rel="stylesheet" href="/adminMenu.css" />
+</head>
+<body>
+    <header>
+        <ul>
+            <div id="user-info">
+            </div>
+            <li><a href="#" id="logout" style="display:none;">Logout</a></li>
+            <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
+    </header>
+    <div class="container">
+        <h2>Menú de Administración</h2>
+        <!-- Div para mostrar mensajes de éxito o error -->
+        <div id="message-box" class="message"></div>
+        <!-- Menú de administración -->
+        <div class="menu">
+            <a href="/gestion-usuarios" class="menu-item">Gestión de Usuarios</a>
+            <a href="/gestion-empresas" class="menu-item">Gestión de Empresas</a>
+            <a href="/asignar-empresas" class="menu-item">Asignación de Empresas a Usuarios</a> 
+            <a href="/gestion-departamentos" class="menu-item">Gestión de Departamentos</a>
+            <a href="/gestion-procesos" class="menu-item">Gestión de Procesos</a>
+            <a href="/gestion-rutas" class="menu-item">Gestión de Rutas</a>
+            <a href="/gestion-proyectos" class="menu-item">Gestión de Proyectos</a> <!-- Nuevo botón -->
+            <a href="/gestion-vistas" class="menu-item">Mostrar todo</a>
+            <a href="/diagrama-arbol" class="menu-item">Ver Diagrama de Árbol</a>
+        </div>
+    </div>
+    
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+      
+        // Aquí puedes inicializar otras funciones si es necesario
+        startTokenExpirationTimer();
+      </script>
+      
+    <script src="/mensaje.js"></script>
+    <script src="/eventos.js"></script>
+    
+</body>
+</html>

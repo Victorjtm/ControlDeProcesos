@@ -1,0 +1,242 @@
+/* Estilos generales */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#user-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+header ul > li {
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+#logout, #token-timer {
+    color: white;
+    flex-shrink: 0;
+}
+
+#time-left {
+    min-width: 50px;
+    display: inline-block;
+    text-align: right;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* Coloca los elementos en fila */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+    padding: 20px;
+    background-color: rgb(189, 187, 187);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: 90%; /* Ancho más amplio para acomodar el formulario, la lista y la información de la empresa */
+    max-width: 1200px; /* Tamaño máximo para mantener una buena presentación */
+}
+
+#empresaList {
+    display: none; /* Ocultar por defecto */
+    background-color: rgb(189, 187, 187);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Ajusta el ancho según tus necesidades */
+    margin-right: 20px; /* Espacio entre la lista y el formulario */
+}
+
+#empresaList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#empresaList th, #empresaList td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+#empresaList th {
+    background-color: #007bff;
+    color: white;
+}
+
+#empresaList tr:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el puntero */
+    cursor: pointer; /* Cambia el cursor para indicar que es seleccionable */
+}
+
+.form-container {
+    flex: 1; /* Toma el espacio restante */
+    display: flex;
+    flex-direction: column;
+}
+
+#empresaInfo {
+    background-color: rgb(189, 187, 187);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Ajusta el ancho según tus necesidades */
+}
+
+#empresaInfo h2 {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%; /* Asegura que los elementos del formulario ocupen el ancho completo */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select,
+input[type="file"] {
+    width: calc(100% - 12px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical; /* Permite cambiar el tamaño verticalmente */
+}
+
+button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px; /* Espacio entre botones */
+    margin-top: 20px; /* Espacio superior para separación vertical */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para campos deshabilitados */
+input[disabled],
+select[disabled],
+textarea[disabled] {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #ced4da;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* Estilo adicional para resaltar que no son editables */
+input[disabled]::placeholder,
+select[disabled]::placeholder,
+textarea[disabled]::placeholder {
+    color: #adb5bd;
+}
+
+.error {
+    color: red; /* Cambia el color del texto a rojo */
+    display: none; /* Inicialmente ocultar los mensajes de error */
+}
+
+/* Media Queries */
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Cambia la dirección a columna para dispositivos móviles */
+        align-items: center; /* Centra los elementos */
+    }
+
+    #empresaList, #empresaInfo {
+        width: 100%; /* Ajusta el ancho al 100% para dispositivos móviles */
+        margin-right: 0; /* Elimina el margen derecho */
+    }
+
+    .form-container {
+        width: 100%; /* Ajusta el ancho al 100% para dispositivos móviles */
+    }
+
+    .form-group {
+        width: 100%; /* Asegura que los elementos del formulario ocupen el ancho completo */
+    }
+
+    button {
+        width: 100%; /* Ajusta el ancho de los botones al 100% */
+        margin-right: 0; /* Elimina el margen derecho */
+        margin-top: 10px; /* Ajusta el margen superior */
+    }
+}
+
+/* Estilos para pantallas medianas (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        flex-direction: column; /* Cambia la dirección a columna para tablets */
+        align-items: center; /* Centra los elementos */
+    }
+
+    #empresaList, #empresaInfo {
+        width: 100%; /* Ajusta el ancho al 100% para tablets */
+        margin-right: 0; /* Elimina el margen derecho */
+    }
+
+    .form-container {
+        width: 100%; /* Ajusta el ancho al 100% para tablets */
+    }
+
+    .form-group {
+        width: 100%; /* Asegura que los elementos del formulario ocupen el ancho completo */
+    }
+
+    button {
+        width: 100%; /* Ajusta el ancho de los botones al 100% */
+        margin-right: 0; /* Elimina el margen derecho */
+        margin-top: 10px; /* Ajusta el margen superior */
+    }
+}
+
