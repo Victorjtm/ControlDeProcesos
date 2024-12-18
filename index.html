@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Aplicación</title>
-    <link rel="stylesheet" href="./public/styles.css">
+    <!-- Ruta absoluta desde la raíz del repositorio -->
+    <link rel="stylesheet" href="/ControlDeProcesos/public/styles.css">
 </head>
 <body data-page="index">
     <header>
@@ -13,7 +14,7 @@
                 <!-- Aquí se mostrará el nombre del usuario si está logueado -->
             </div>
             <ul>
-                <li><a href="./public/login.html">Login</a></li>
+                <li><a href="/ControlDeProcesos/public/login.html">Login</a></li>
                 <li><a href="#" id="logout" style="display:none;">Logout</a></li>
                 <li id="token-timer" style="display:none;">Tiempo restante: <span id="time-left"></span></li>
             </ul>
@@ -26,10 +27,11 @@
         </div>
     </main>
 
-    <script src="./public/checkLongeado.js"></script>
-    <script src="./public/obtenerNivelPrivilegio.js"></script>
-    <script src="./public/eventos.js"></script>
-    <script src="./public/tokenTimer.js"></script>
+    <!-- Scripts con rutas absolutas -->
+    <script src="/ControlDeProcesos/public/checkLongeado.js"></script>
+    <script src="/ControlDeProcesos/public/obtenerNivelPrivilegio.js"></script>
+    <script src="/ControlDeProcesos/public/eventos.js"></script>
+    <script src="/ControlDeProcesos/public/tokenTimer.js"></script>
 </body>
 </html>
 
