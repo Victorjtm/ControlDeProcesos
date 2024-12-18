@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     background-color: #c0c9c4;
-    background-image: url('/imagenes/iniControlProcesos.jpg');
+    background-image: url('/ControlDeProcesos/public/imagenes/iniControlProcesos.jpg');
     background-size:contain; /* Asegura que la imagen cubra todo el fondo */
     background-position: center; /* Centra la imagen en la pantalla */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
