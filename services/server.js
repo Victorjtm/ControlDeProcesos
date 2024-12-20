@@ -145,15 +145,6 @@ app.get('/detalle-paso', (req, res) => {
   res.sendFile(path.join(__dirname, '../detalle-paso.html'));
 });
 
-// Inicia el servidor en el puerto configurado
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
-  console.log(`Ruta de la base de datos: ${dbPath}`);
-  console.log(`Directorio de uploads: ${uploadsDir}`);
-});
-
-
-
 //  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Endpoint de mensajes en capturas---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1907,9 +1898,11 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Inicialización del servidor
+// Inicia el servidor en el puerto configurado
 app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+  console.log(`Servidor escuchando en el puerto ${port}`);
+  console.log(`Ruta de la base de datos: ${dbPath}`);
+  console.log(`Directorio de uploads: ${uploadsDir}`);
 });
 
 
