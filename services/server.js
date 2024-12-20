@@ -4,14 +4,20 @@ const secretKey = 'secret123'; // Usa la misma clave que en authenticate.js
 const TOKEN_EXPIRATION = '1h'; // Mismo valor que en authenticate.js
 
 const multer = require('multer');
-//const path = require('path');
-
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join('C:', 'procesos', 'basesDatos', 'databaseEmpresa.db');
+// Usa variables de entorno para las rutas de archivos y base de datos
+const uploadsDir = process.env.UPLOADS_DIR || '/tmp/uploads'; // Ruta para archivos subidos en Render
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'databaseEmpresa.db'); // Ruta para la base de datos
 
+// Asegúrate de que el directorio de uploads exista en el entorno de ejecución
+if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Abre la base de datos
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READONLY, (err) => {
   if (err) {
     console.error('Error al abrir la base de datos en modo de solo lectura:', err.message);
@@ -20,7 +26,6 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READONLY, (err) => {
   }
 });
 
-//const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const dbuser = require('./databases/databaseEmpresa');
@@ -31,44 +36,31 @@ const dbProyectos = require('./databases/databaseProcesos');
 const dbpromesas = require('./databases/databaseProcesos');
 const cookieParser = require('cookie-parser');
 
-// Añade estas líneas aquí
-const uploadsDir = 'C:\\procesos\\uploads';
-if (!fs.existsSync(uploadsDir)){
-    fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-// Luego, actualiza la configuración de multer para usar esta nueva ruta
+// Configura Multer para almacenar archivos en la carpeta uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadsDir)
+    cb(null, uploadsDir); // Directorio donde se guardarán los archivos subidos
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
+    cb(null, Date.now() + '-' + file.originalname); // Nombre único para los archivos
   }
 });
 
 const upload = multer({ storage: storage });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Usa el puerto proporcionado por Render
 
 // Configuración de middlewares y rutas
-app.use(express.static(path.join(__dirname, '../public')));
-app.use('/uploads', express.static(uploadsDir)); // Actualiza esta línea
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(uploadsDir)); // Servir archivos subidos
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/uploads', (req, res, next) => {
-  console.log('Solicitud de archivo:', req.url);
-  console.log('Ruta completa:', path.join('F:\\procesos\\uploads', req.url));
-  next();
-}, express.static('F:\\procesos\\uploads'));
-
-
-// 1. Rutas de gestión de archivos HTML (Usuarios, Empresas, Departamentos, Procesos, Rutas)----------------------------------------------------------------------------------
+// Rutas para servir archivos HTML (sin cambios en las rutas)
 app.get('/registro', (req, res) => {
   res.sendFile(path.join(__dirname, '../registro.html'));
 });
@@ -152,6 +144,15 @@ app.get('/pasos-proceso', (req, res) => {
 app.get('/detalle-paso', (req, res) => {
   res.sendFile(path.join(__dirname, '../detalle-paso.html'));
 });
+
+// Inicia el servidor en el puerto configurado
+app.listen(port, () => {
+  console.log(`Servidor escuchando en el puerto ${port}`);
+  console.log(`Ruta de la base de datos: ${dbPath}`);
+  console.log(`Directorio de uploads: ${uploadsDir}`);
+});
+
+
 
 //  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Endpoint de mensajes en capturas---------------------------------------------------------------------------------------------------------------------------------------
