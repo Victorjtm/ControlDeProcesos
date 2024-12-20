@@ -12,7 +12,8 @@ const cookieParser = require('cookie-parser');
 
 // Usa variables de entorno para las rutas de archivos y base de datos
 const uploadsDir = process.env.UPLOADS_DIR || '/tmp/uploads';
-const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'base de datos', 'databaseEmpresa.db');
+const dbPathEmpresa = process.env.DB_PATH_EMPRESA || path.join(__dirname, '..', 'databaseEmpresa.db');
+const dbPathProcesos = process.env.DB_PATH_PROCESOS || path.join(__dirname, '..', 'databaseProcesos.db');
 
 console.log('Directorio actual:', __dirname);
 console.log('Ruta de la base de datos:', dbPath);
@@ -30,21 +31,32 @@ if (!fs.existsSync(dbPath)) {
 }
 
 // Abre la base de datos
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error al abrir la base de datos:', err.message);
-    } else {
-        console.log('Conexión exitosa a la base de datos');
-    }
+const dbEmpresa = new sqlite3.Database(dbPathEmpresa, (err) => {
+  if (err) {
+      console.error('Error al abrir la base de datos Empresa:', err.message);
+  } else {
+      console.log('Conexión exitosa a la base de datos Empresa');
+  }
 });
 
+const dbProcesos = new sqlite3.Database(dbPathProcesos, (err) => {
+  if (err) {
+      console.error('Error al abrir la base de datos Procesos:', err.message);
+  } else {
+      console.log('Conexión exitosa a la base de datos Procesos');
+  }
+});
+
+
 // Importa los módulos de base de datos y pasa la conexión
-const dbuser = require('./databases/databaseEmpresa')(db);
-const dbempresa = require('./databases/databaseEmpresa')(db);
-const dbUserEmpresa = require('./databases/databaseEmpresa')(db);
-const dbRutas = require('./databases/databaseProcesos')(db);
-const dbProyectos = require('./databases/databaseProcesos')(db);
-const dbpromesas = require('./databases/databaseProcesos')(db);
+const dbuser = require('./databases/databaseEmpresa')(dbEmpresa);
+const dbempresa = require('./databases/databaseEmpresa')(dbEmpresa);
+const dbUserEmpresa = require('./databases/databaseEmpresa')(dbEmpresa);
+
+const dbRutas = require('./databases/databaseProcesos')(dbProcesos);
+const dbProyectos = require('./databases/databaseProcesos')(dbProcesos);
+const dbpromesas = require('./databases/databaseProcesos')(dbProcesos);
+
 
 // Configura Multer para almacenar archivos
 const storage = multer.diskStorage({
