@@ -7,6 +7,8 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+
 
 // Variables de configuración
 const secretKey = process.env.JWT_SECRET || 'secret123'; // Usa variable de entorno para seguridad
