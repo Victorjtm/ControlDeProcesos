@@ -15,7 +15,7 @@ const dbPath = path.join(__dirname, 'procesos', 'basesDatos', 'databaseEmpresa.d
 const uploadsDir = path.join(__dirname, 'procesos', 'uploads'); // Ruta relativa para archivos subidos
 
 // Conexión a la base de datos
-const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READONLY, (err) => {
+const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
   if (err) {
     console.error('Error al abrir la base de datos en modo de solo lectura:', err.message);
   } else {
@@ -51,6 +51,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo salió mal!');
+});
+
 
 // Prueba de archivos estáticos subidos
 app.use('/uploads', (req, res, next) => {
