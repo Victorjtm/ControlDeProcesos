@@ -17,7 +17,8 @@ const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.d
 
 const uploadsDir = path.join(__dirname, 'procesos', 'uploads'); // Ruta relativa para archivos subidos
 
-const db = require('./procesos/services/databases/databaseEmpresa');
+const db = require('./databases/databaseEmpresa');
+
 
 
 // Configuración de multer
