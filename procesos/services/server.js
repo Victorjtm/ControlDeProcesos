@@ -13,17 +13,12 @@ const helmet = require('helmet');
 // Variables de configuración
 const secretKey = process.env.JWT_SECRET || 'secret123'; // Usa variable de entorno para seguridad
 const TOKEN_EXPIRATION = '1h'; // Duración del token
-//const dbPath = path.join(__dirname, 'procesos', 'basesDatos', 'databaseEmpresa.db'); // Ruta relativa a la base de datos
+const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.db');// Ruta relativa a la base de datos
+
 const uploadsDir = path.join(__dirname, 'procesos', 'uploads'); // Ruta relativa para archivos subidos
 
-// Conexión a la base de datos
-const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-  if (err) {
-    console.error('Error al abrir la base de datos en modo de solo lectura:', err.message);
-  } else {
-    console.log('Conexión exitosa a la base de datos en modo de solo lectura');
-  }
-});
+const db = require('./procesos/services/databases/databaseEmpresa');
+
 
 // Configuración de multer
 if (!fs.existsSync(uploadsDir)) {
