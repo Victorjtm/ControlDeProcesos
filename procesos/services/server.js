@@ -68,8 +68,9 @@ app.use('/uploads', (req, res, next) => {
 
 // Rutas base
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html')); // Asegúrate de que index.html esté en la raíz
+  res.sendFile(path.join(__dirname, '..', '..', 'index.html'));
 });
+
 
 // 1. Rutas de gestión de archivos HTML (Usuarios, Empresas, Departamentos, Procesos, Rutas)----------------------------------------------------------------------------------
 app.get('/registro', (req, res) => {
@@ -129,8 +130,9 @@ app.get('/registroEmpresas', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'index.html'));
 });
+
 
 app.get('/menuUsuarioLongeado', (req, res) => {
   res.sendFile(path.join(__dirname, '../menuUsuarioLongeado.html'));
