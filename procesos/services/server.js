@@ -43,7 +43,11 @@ const upload = multer({ storage: storage });
 
 // Configuración de Express
 const app = express();
-const PORT = process.env.PORT || 3000; // Usar el puerto proporcionado por Render o 3000 por defecto
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
+
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'procesos', 'public')));
@@ -70,12 +74,6 @@ app.use('/uploads', (req, res, next) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html')); // Asegúrate de que index.html esté en la raíz
 });
-
-// Inicia el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
-
 
 // 1. Rutas de gestión de archivos HTML (Usuarios, Empresas, Departamentos, Procesos, Rutas)----------------------------------------------------------------------------------
 app.get('/registro', (req, res) => {
