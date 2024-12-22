@@ -4,7 +4,6 @@ const path = require('path');
 
 const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.db');
 
-const fs = require('fs');
 const dbDir = path.dirname(dbPath);
 if (!fs.existsSync(dbDir)) {
   fs.mkdirSync(dbDir, { recursive: true });
