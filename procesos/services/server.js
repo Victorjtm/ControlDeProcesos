@@ -46,7 +46,10 @@ app.listen(PORT, () => {
 
 
 // Middlewares
-app.use(express.static(path.join(__dirname, 'procesos', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+console.log('Ruta de archivos estáticos:', path.join(__dirname, '..', '..', 'procesos', 'public'));
+
 app.use('/uploads', express.static(uploadsDir)); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
