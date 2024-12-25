@@ -33,17 +33,17 @@
         <button type="button" class="cancel" onclick="window.location.href='/'">Cancelar</button> <!-- Botón para cancelar y regresar a la página principal -->
       </form>
     </div>
-    <script src="validarLogin.js"></script>
-    <script src="checkUser.js"></script>
+    <script src="/validarLogin.js"></script>
+    <script src="/checkUser.js"></script>
     <script type="module">
-      import { showMessage, startTokenExpirationTimer } from './login.js';
+      import { showMessage, startTokenExpirationTimer } from '/login.js';
       window.showMessage = showMessage;
       window.startTokenExpirationTimer = startTokenExpirationTimer;
     
       // Aquí puedes inicializar otras funciones si es necesario
       startTokenExpirationTimer();
     </script>
-    <script src="eventos.js"></script>
+    <script src="/eventos.js"></script>
   </body>
 </html>
 
