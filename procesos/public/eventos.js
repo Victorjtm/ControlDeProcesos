@@ -1,34 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const page = document.body.dataset.page;
     console.log('Página cargada:', page);
 
-    // Iniciar la verificación del token para todas las páginas
+    // Verificar el token al cargar cualquier página
     if (typeof startTokenExpirationTimer === 'function') {
         startTokenExpirationTimer();
     } else {
         console.error('La función startTokenExpirationTimer no está definida');
     }
 
-    // Resto del código específico de cada página...
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const page = document.body.dataset.page;
-
-    // Funciones auxiliares
-    function addEventIfElementExists(id, event, handler) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.addEventListener(event, handler);
-        } else {
-            console.warn(`Elemento con ID "${id}" no encontrado.`);
-        }
-    }
-});
-//Eventos para login
-document.addEventListener('DOMContentLoaded', function() {
-    const page = document.body.dataset.page;
-    
+    // Configuración de eventos específicos por página
     if (page === 'login') {
         console.log('Cargando eventos para la página de login');
 
@@ -38,29 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error('El formulario de login no se encontró en el DOM.');
         }
-
-        // Iniciar el temporizador para verificar la expiración del token
-        startTokenExpirationTimer();
     }
 });
-//Eventos para login
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOMContentLoaded event fired para login');
-    const page = document.body.dataset.page;
-    console.log('La página es: ', page);
 
-    if (page === 'login') {
-        console.log('Configurando el manejo del formulario de login');
-        
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', handleLogin);
-        } else {
-            console.error('El formulario de login no se encontró en el DOM');
-        }
-    }
-});
-// Eventos para handlelogin
+// Función para manejar el evento de login
 async function handleLogin(event) {
     event.preventDefault();
     localStorage.clear();
@@ -74,28 +36,23 @@ async function handleLogin(event) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password }),
         });
 
         const data = await response.json();
 
-        if (response.ok) {
-            if (data.success) {
-                // Almacenar el token
-                localStorage.setItem('token', data.token);
-                
-                // Establecer la fecha de expiración
-                const expirationTime = Date.now() + (60 * 60 * 1000); // 1 hora 
-                localStorage.setItem('tokenExpiration', expirationTime.toString());
-                
-                // Almacenar el tiempo en que se estableció el token
-                localStorage.setItem('tokenSetTime', Date.now().toString());
+        if (response.ok && data.success) {
+            // Almacenar el token y la fecha de expiración
+            localStorage.setItem('token', data.token);
 
-                window.showMessage(data.message, false);
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 1000);
-            }
+            const expirationTime = Date.now() + (60 * 60 * 1000); // 1 hora
+            localStorage.setItem('tokenExpiration', expirationTime.toString());
+            localStorage.setItem('tokenSetTime', Date.now().toString());
+
+            window.showMessage(data.message, false);
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
         } else {
             window.showMessage(data.message, true);
         }
@@ -103,6 +60,7 @@ async function handleLogin(event) {
         window.showMessage('Error en el servidor', true);
     }
 }
+
 
 // Eventos que se ejecuta cuando el DOM está completamente cargado empresas usuarios
 document.addEventListener('DOMContentLoaded', function() {
@@ -748,7 +706,7 @@ if (mostrarEmpresasProcesosBtn) {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {// Eventos para la pagina pasosProceso
+document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired pasosProceso');
     const page = document.body.dataset.page;
     
@@ -761,6 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {// Eventos para la pag
         const visual = document.querySelector('.pasos-visual');
         const pasosVisuales = document.querySelectorAll('.paso-visual');
         const pasosLista = document.querySelector('.pasos-lista');
+        const volverBtn = document.getElementById('volver');
 
         function ajustarVentanas(tablaVisible) {
             if (tablaVisible) {
@@ -812,20 +771,21 @@ document.addEventListener('DOMContentLoaded', function() {// Eventos para la pag
             console.error('El botón "toggle-visual" o el contenedor visual no se encontraron en el DOM.');
         }
 
+        // Configuración del botón "Volver"
+        if (volverBtn) {
+            volverBtn.addEventListener('click', function() {
+                // Regresar a la página anterior en el historial
+                window.history.back();
+            });
+        } else {
+            console.error('El botón "Volver" no se encontró en el DOM.');
+        }
+
         // Ajuste inicial
         ajustarVentanas(true);
     }
-    // Event listener para el botón Volver
-const volverBtn = document.getElementById('volver');
-if (volverBtn) {
-    volverBtn.addEventListener('click', function() {
-        // Regresar a la página anterior en el historial
-        window.history.back();
-    });
-} else {
-    console.error('El botón "Volver" no se encontró en el DOM.');
-}
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {// Eventos para la pagina proyectos
     console.log('DOMContentLoaded event fired proyectos');

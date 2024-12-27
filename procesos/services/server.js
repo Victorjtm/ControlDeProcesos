@@ -15,7 +15,7 @@ const secretKey = process.env.JWT_SECRET || 'secret123'; // Usa variable de ento
 const TOKEN_EXPIRATION = '1h'; // Duración del token
 const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.db');// Ruta relativa a la base de datos
 
-const uploadsDir = path.join(__dirname, 'procesos', 'uploads'); // Ruta relativa para archivos subidos
+const uploadsDir = path.join(__dirname, '..', 'uploads'); // Ruta relativa para archivos subidos
 
 const db = require('./databases/databaseEmpresa');
 const dbuser = require('./databases/databaseEmpresa');
