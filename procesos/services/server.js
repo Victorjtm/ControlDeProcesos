@@ -1,98 +1,105 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const multer = require('multer');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
-
+// Importación de módulos necesarios
+const jwt = require('jsonwebtoken'); // Manejo de tokens JWT para autenticación
+const bcrypt = require('bcryptjs'); // Hashing y verificación de contraseñas
+const multer = require('multer'); // Middleware para manejo de archivos
+const sqlite3 = require('sqlite3').verbose(); // Base de datos SQLite
+const path = require('path'); // Manejo de rutas de archivo
+const fs = require('fs'); // Sistema de archivos
+const express = require('express'); // Framework para aplicaciones web
+const bodyParser = require('body-parser'); // Middleware para manejar cuerpos de solicitud
+const cookieParser = require('cookie-parser'); // Middleware para manejar cookies
+const helmet = require('helmet'); // Protección de seguridad para encabezados HTTP
 
 // Variables de configuración
-const secretKey = process.env.JWT_SECRET || 'secret123'; // Usa variable de entorno para seguridad
-const TOKEN_EXPIRATION = '1h'; // Duración del token
-const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.db');// Ruta relativa a la base de datos
+const secretKey = process.env.JWT_SECRET || 'secret123'; // Clave secreta para JWT
+const TOKEN_EXPIRATION = '1h'; // Duración de validez de los tokens JWT
+const dbPath = path.join(__dirname, '..', '..', 'basesDatos', 'controlProcesos.db'); // Ruta de la base de datos SQLite
 
-const uploadsDir = path.join(__dirname, '..', 'uploads'); // Ruta relativa para archivos subidos
+// Directorio para archivos subidos
+const uploadsDir = path.join(__dirname, '..', 'uploads'); // Ruta relativa para almacenamiento de archivos subidos
 
-const db = require('./databases/databaseEmpresa');
-const dbuser = require('./databases/databaseEmpresa');
-const dbempresa = require('./databases/databaseEmpresa');
-const dbUserEmpresa = require('./databases/databaseEmpresa');
-const dbRutas = require('./databases/databaseProcesos');
-const dbProyectos = require('./databases/databaseProcesos');
-const dbpromesas = require('./databases/databaseProcesos');
+// ⚠️ Modificación: la siguiente línea se movió al lugar correcto para evitar errores de inicialización
+// Inicialización de Express
+const app = express(); // Crear una instancia de Express
 
+// Middleware para servir archivos estáticos en /uploads
+app.use('/uploads', (req, res, next) => {
+  console.log(`Solicitud de archivo estático: ${req.url}`); // Log de solicitud de archivo
+  next();
+}, express.static(uploadsDir)); // Servir archivos desde el directorio uploads
 
-// Configuración de multer
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// Importación de módulos específicos de la base de datos
+const db = require('./databases/databaseEmpresa'); // Base de datos general
+const dbuser = require('./databases/databaseEmpresa'); // Base de datos de usuarios
+const dbempresa = require('./databases/databaseEmpresa'); // Base de datos de empresas
+const dbUserEmpresa = require('./databases/databaseEmpresa'); // Base de datos de relaciones usuario-empresa
+const dbRutas = require('./databases/databaseProcesos'); // Base de datos de rutas de procesos
+const dbProyectos = require('./databases/databaseProcesos'); // Base de datos de proyectos
+const dbpromesas = require('./databases/databaseProcesos'); // Base de datos de promesas
+
+// Configuración de multer para subir archivos
+if (!fs.existsSync(uploadsDir)) { 
+  fs.mkdirSync(uploadsDir, { recursive: true }); // Crear directorio si no existe
 }
 
+// Almacenamiento de multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadsDir);
+    cb(null, uploadsDir); // Establecer directorio de destino
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + '-' + file.originalname); // Generar nombre único para archivo subido
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }); // Crear instancia de multer con almacenamiento configurado
 
-// Configuración de Express
-const app = express();
-const PORT = process.env.PORT || 3000;
+// Configuración del servidor Express
+const PORT = process.env.PORT || 3000; // Puerto en el que corre la aplicación
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`); // Mensaje indicando inicio del servidor
 });
 
-
+// Middleware para servir archivos estáticos desde /public
 app.use(express.static(path.join(__dirname, '..', 'public'), { 
   setHeaders: (res, path, stat) => {
     if (path.endsWith('.js')) {
-      res.set('Content-Type', 'application/javascript');
+      res.set('Content-Type', 'application/javascript'); // Establecer tipo MIME para archivos JS
     }
   }
 }));
 
+console.log('Ruta de archivos estáticos:', path.join(__dirname, '..', 'public')); // Log de ruta de archivos estáticos
 
-console.log('Ruta de archivos estáticos:', path.join(__dirname, '..', '..', 'procesos', 'public'));
+// Middlewares adicionales
+app.use(bodyParser.urlencoded({ extended: true })); // Parsear cuerpos URL-encoded
+app.use(bodyParser.json()); // Parsear cuerpos JSON
+app.use(cookieParser()); // Parsear cookies
+app.use(express.json()); // Parsear JSON con Express
+app.use(express.urlencoded({ extended: true })); // Parsear URL-encoded con Express
 
-app.use('/uploads', express.static(uploadsDir)); 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+// Configuración de seguridad con Helmet
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "script-src": ["'self'", "'unsafe-inline'"]
+      "script-src": ["'self'", "'unsafe-inline'", "https://d3js.org"] // Añadir 'https://d3js.org'
     }
   }
 }));
 
+
+// Manejo de errores
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Algo salió mal!');
+  console.error(err.stack); // Log de error
+  res.status(500).send('Algo salió mal!'); // Respuesta de error genérica
 });
-
-
-// Prueba de archivos estáticos subidos
-app.use('/uploads', (req, res, next) => {
-  console.log('Solicitud de archivo:', req.url);
-  next();
-}, express.static(uploadsDir));
 
 // Rutas base
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', '..', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'index.html')); // Servir archivo HTML principal
 });
+
 
 
 // 1. Rutas de gestión de archivos HTML (Usuarios, Empresas, Departamentos, Procesos, Rutas)----------------------------------------------------------------------------------
