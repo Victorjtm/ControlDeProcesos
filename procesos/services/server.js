@@ -83,10 +83,13 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "script-src": ["'self'", "'unsafe-inline'", "https://d3js.org"] // Añadir 'https://d3js.org'
+      "script-src": ["'self'", "'unsafe-inline'", "https://d3js.org"], // Mantiene los scripts
+      "media-src": ["'self'", "blob:"], // Permite blobs
+      "script-src-attr": ["'unsafe-inline'"] // Permite eventos en línea (menos seguro)
     }
   }
 }));
+
 
 
 // Manejo de errores
