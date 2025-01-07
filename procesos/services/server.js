@@ -9,6 +9,7 @@ const express = require('express'); // Framework para aplicaciones web
 const bodyParser = require('body-parser'); // Middleware para manejar cuerpos de solicitud
 const cookieParser = require('cookie-parser'); // Middleware para manejar cookies
 const helmet = require('helmet'); // Protección de seguridad para encabezados HTTP
+const serveFavicon = require('serve-favicon'); // Middleware para servir el favicon
 
 // Variables de configuración
 const secretKey = process.env.JWT_SECRET || 'secret123'; // Clave secreta para JWT
@@ -21,6 +22,9 @@ const uploadsDir = path.join(__dirname, '..', 'uploads'); // Ruta relativa para 
 // ⚠️ Modificación: la siguiente línea se movió al lugar correcto para evitar errores de inicialización
 // Inicialización de Express
 const app = express(); // Crear una instancia de Express
+
+// Middleware para servir el favicon
+app.use(serveFavicon(path.join(__dirname, '..', 'public', 'favicon.ico'))); // Ruta donde se encuentra el favicon
 
 // Middleware para servir archivos estáticos en /uploads
 app.use('/uploads', (req, res, next) => {
@@ -90,8 +94,6 @@ app.use(helmet({
   }
 }));
 
-
-
 // Manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack); // Log de error
@@ -102,6 +104,7 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'index.html')); // Servir archivo HTML principal
 });
+
 
 
 
@@ -1463,6 +1466,8 @@ app.get('/api/pasos', (req, res) => {
     });
   });
 });
+
+
 
 app.get('/api/obtener-datos-ruta', (req, res) => {
   const { empresaId, departamentoId, procesoId, orden } = req.query;

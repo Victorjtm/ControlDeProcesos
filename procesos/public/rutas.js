@@ -442,46 +442,71 @@ function capturarFoto() {
     const canvas = document.getElementById('canvas');
     const archivoInput = document.getElementById('archivo');
 
-    if (esMobile()) {
-        // Código para dispositivos móviles
-        if ('capture' in HTMLInputElement.prototype) {
-            archivoInput.capture = 'user';
-            archivoInput.accept = 'image/*';
-            archivoInput.click();
-        } else {
-            alert('Tu dispositivo no soporta la captura de imágenes directamente.');
-        }
-    } else {
-        // Código existente para PC
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.play();
+    // Verificar si hay cámaras disponibles
+    navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            console.log('Dispositivos de cámara detectados:', videoDevices);
 
-                video.addEventListener('loadedmetadata', function() {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
+            if (videoDevices.length === 0) {
+                alert('No hay cámaras disponibles en este dispositivo.');
+                return;
+            }
 
-                    setTimeout(() => {
-                        canvas.getContext('2d').drawImage(video, 0, 0);
-                        canvas.toBlob(function(blob) {
-                            const file = new File([blob], "foto.jpg", { type: "image/jpeg" });
+            if (esMobile()) {
+                // Código para dispositivos móviles
+                if ('capture' in HTMLInputElement.prototype) {
+                    archivoInput.capture = 'user';
+                    archivoInput.accept = 'image/*';
+                    archivoInput.click();
+                } else {
+                    alert('Tu dispositivo no soporta la captura de imágenes directamente.');
+                }
+            } else {
+                // Código para PC
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        const video = document.createElement('video');
+                        video.srcObject = stream;
+                        video.play();
 
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(file);
-                            archivoInput.files = dataTransfer.files;
+                        video.addEventListener('loadedmetadata', function() {
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
 
-                            stream.getTracks().forEach(track => track.stop());
-                        }, 'image/jpeg');
-                    }, 1000);
-                });
-            })
-            .catch(function(err) {
-                console.log("Ocurrió un error: " + err);
-            });
-    }
+                            setTimeout(() => {
+                                canvas.getContext('2d').drawImage(video, 0, 0);
+                                canvas.toBlob(function(blob) {
+                                    const file = new File([blob], "foto.jpg", { type: "image/jpeg" });
+
+                                    const dataTransfer = new DataTransfer();
+                                    dataTransfer.items.add(file);
+                                    archivoInput.files = dataTransfer.files;
+
+                                    stream.getTracks().forEach(track => track.stop());
+                                }, 'image/jpeg');
+                            }, 1000);
+                        });
+                    })
+                    .catch(function(err) {
+                        console.error("Error al acceder a la cámara:", err.name, err.message);
+
+                        if (err.name === 'NotFoundError') {
+                            alert('No se encontró ninguna cámara conectada.');
+                        } else if (err.name === 'NotAllowedError') {
+                            alert('No se otorgaron permisos para acceder a la cámara.');
+                        } else {
+                            alert('Ocurrió un error al intentar acceder a la cámara.');
+                        }
+                    });
+            }
+        })
+        .catch(err => {
+            console.error('Error al enumerar dispositivos:', err);
+            alert('No se pudieron verificar los dispositivos de cámara. Por favor, intenta nuevamente.');
+        });
 }
+
 
 let mediaRecorder;
 let recordedChunks = [];
@@ -550,6 +575,36 @@ function toggleGrabacionVideo() {
     grabarVideo();
 }
 
+let stopRecordingButton;
+
+function showStopButton() {
+    if (!stopRecordingButton) {
+        stopRecordingButton = document.createElement('button');
+        stopRecordingButton.textContent = 'Detener Grabación';
+        stopRecordingButton.style.position = 'fixed';
+        stopRecordingButton.style.top = '10px';
+        stopRecordingButton.style.right = '10px';
+        stopRecordingButton.style.zIndex = 1000;
+        stopRecordingButton.style.padding = '10px 20px';
+        stopRecordingButton.style.fontSize = '16px';
+        stopRecordingButton.style.backgroundColor = 'red';
+        stopRecordingButton.style.color = 'white';
+        stopRecordingButton.style.border = 'none';
+        stopRecordingButton.style.borderRadius = '5px';
+        stopRecordingButton.style.cursor = 'pointer';
+        
+        stopRecordingButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                console.log("Grabación detenida manualmente");
+                stopRecordingButton.style.display = 'none'; // Ocultar el botón al detener la grabación
+            }
+        });
+
+        document.body.appendChild(stopRecordingButton);
+    }
+}
+
 function grabarPantalla() {
     if (esMobile()) {
         alert("La grabación de pantalla no está disponible en dispositivos móviles.");
@@ -560,6 +615,7 @@ function grabarPantalla() {
     if (mediaRecorder && mediaRecorder.state === "recording") {
         mediaRecorder.stop();
         console.log("Grabación detenida manualmente");
+        stopRecordingButton.style.display = 'none'; // Ocultar el botón cuando se detiene la grabación
     } else {
         const grabarAudio = confirm("¿Deseas grabar audio mientras grabas la pantalla?");
 
@@ -573,6 +629,7 @@ function grabarPantalla() {
         navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
             .then(screenStream => {
                 console.log("Pantalla capturada con éxito");
+                showStopButton(); // Mostrar el botón de detener la grabación
                 if (grabarAudio) {
                     return navigator.mediaDevices.getUserMedia({ audio: true })
                         .then(audioStream => {
@@ -614,7 +671,7 @@ function grabarPantalla() {
 
                         console.log("Archivo asignado al input");
                         console.log("Archivo guardado:", archivoInput.files[0]);
-                        
+
                         archivoInput.dispatchEvent(new Event('change', { bubbles: true }));
                         console.log("Evento change disparado en el input");
                     };
@@ -623,6 +680,7 @@ function grabarPantalla() {
                     recordedChunks = [];
                     stream.getTracks().forEach(track => track.stop());
                     if (audioStream) audioStream.getTracks().forEach(track => track.stop());
+                    stopRecordingButton.style.display = 'none'; // Ocultar el botón cuando la grabación termina
                 };
 
                 screenStream.getVideoTracks()[0].onended = () => {
@@ -641,6 +699,7 @@ function grabarPantalla() {
             });
     }
 }
+
     // Manejar la selección de archivos desde dispositivos móviles
     const archivoInput = document.getElementById('archivo');
     archivoInput.addEventListener('change', function(e) {

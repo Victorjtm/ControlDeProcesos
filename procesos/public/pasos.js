@@ -52,6 +52,9 @@ function cargarTablapasos(empresaId, departamentoId, procesoId) {
         return response.json();
     })
     .then(pasos => {
+        // Mostrar todos los datos recibidos en la consola
+        console.log('Datos recibidos de la API:', pasos);
+
         const tbody = document.querySelector('#pasos-tabla tbody');
         tbody.innerHTML = '';
         
@@ -63,13 +66,16 @@ function cargarTablapasos(empresaId, departamentoId, procesoId) {
         }
 
         pasos.forEach(paso => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${paso.orden || 'N/A'}</td>
-                <td>${paso.descripcion_corta || 'Sin descripción'}</td>
-            `;
-            tr.addEventListener('click', () => seleccionarPaso(paso.id));
-            tbody.appendChild(tr);
+            // Solo cargar pasos donde ruta_id no es null
+            if (paso.id !== null) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${paso.orden || 'N/A'}</td>
+                    <td>${paso.descripcion_corta || 'Sin descripción'}</td>
+                `;
+                tr.addEventListener('click', () => seleccionarPaso(paso.id));
+                tbody.appendChild(tr);
+            }
         });
     })
     .catch(error => {
@@ -80,6 +86,9 @@ function cargarTablapasos(empresaId, departamentoId, procesoId) {
     });
 }
 
+
+
+
 function cargarVisualizacionPasos(empresaId, departamentoId, procesoId) {
     fetch(`/api/pasos?empresaId=${empresaId}&departamentoId=${departamentoId}&procesoId=${procesoId}`)
         .then(response => {
@@ -89,6 +98,9 @@ function cargarVisualizacionPasos(empresaId, departamentoId, procesoId) {
             return response.json();
         })
         .then(pasos => {
+            // Mostrar todos los datos recibidos en la consola
+            console.log('Datos recibidos de la API:', pasos);
+
             const visualContainer = document.querySelector('.pasos-visual');
             visualContainer.innerHTML = '';
 
@@ -98,53 +110,56 @@ function cargarVisualizacionPasos(empresaId, departamentoId, procesoId) {
             }
 
             pasos.forEach(paso => {
-                const contenidoUrl = paso.url_contenido;
-                console.log('URL del contenido:', contenidoUrl);
-                const pasoElement = document.createElement('div');
-                pasoElement.className = 'paso-visual';
+                // Solo mostrar los pasos cuyo ruta_id no sea null
+                if (paso.id !== null) {
+                    const contenidoUrl = paso.url_contenido;
+                    console.log('URL del contenido:', contenidoUrl);
+                    const pasoElement = document.createElement('div');
+                    pasoElement.className = 'paso-visual';
 
-                // Determinar si es una imagen o un video basado en la extensión del archivo
-                const esVideo = contenidoUrl && /\.(mp4|webm|ogg)$/i.test(contenidoUrl);
+                    // Determinar si es una imagen o un video basado en la extensión del archivo
+                    const esVideo = contenidoUrl && /\.(mp4|webm|ogg)$/i.test(contenidoUrl);
 
-                pasoElement.innerHTML = `
-                    <div class="orden-sopa">Paso ${paso.orden || 'N/A'}</div>
-                    <div class="descripcion-corta">${paso.descripcion_corta || 'Sin descripción'}</div>
-                    <div class="imagen-container">
-                        ${contenidoUrl 
-                            ? (esVideo 
-                                ? `<div class="video-wrapper">
-                                     <video src="${contenidoUrl}" preload="metadata">
-                                       Tu navegador no soporta el elemento de video.
-                                     </video>
-                                     <div class="video-overlay">
-                                       <span class="play-icon">▶</span>
-                                     </div>
-                                   </div>`
-                                : `<img src="${contenidoUrl}" alt="Paso ${paso.orden || 'N/A'}" onerror="this.onerror=null; this.src='/ruta/a/imagen-por-defecto.jpg';">`)
-                            : '<p>No hay contenido multimedia disponible</p>'
+                    pasoElement.innerHTML = `
+                        <div class="orden-sopa">Paso ${paso.orden || 'N/A'}</div>
+                        <div class="descripcion-corta">${paso.descripcion_corta || 'Sin descripción'}</div>
+                        <div class="imagen-container">
+                            ${contenidoUrl 
+                                ? (esVideo 
+                                    ? `<div class="video-wrapper">
+                                         <video src="${contenidoUrl}" preload="metadata">
+                                           Tu navegador no soporta el elemento de video.
+                                         </video>
+                                         <div class="video-overlay">
+                                           <span class="play-icon">▶</span>
+                                         </div>
+                                       </div>`
+                                    : `<img src="${contenidoUrl}" alt="Paso ${paso.orden || 'N/A'}" onerror="this.onerror=null; this.src='/ruta/a/imagen-por-defecto.jpg';">`)
+                                : '<p>No hay contenido multimedia disponible</p>'
+                            }
+                        </div>
+                    `;
+
+                    // Agregar evento de clic al elemento del paso
+                    pasoElement.addEventListener('click', (event) => {
+                        if (esVideo && event.target.closest('.video-overlay')) {
+                            event.preventDefault();
+                            const video = pasoElement.querySelector('video');
+                            const overlay = pasoElement.querySelector('.video-overlay');
+                            if (video.paused) {
+                                video.play();
+                                overlay.style.display = 'none';
+                            } else {
+                                video.pause();
+                                overlay.style.display = 'flex';
+                            }
+                        } else if (paso.id) {
+                            seleccionarPaso(paso.id);
                         }
-                    </div>
-                `;
+                    });
 
-                // Agregar evento de clic al elemento del paso
-                pasoElement.addEventListener('click', (event) => {
-                    if (esVideo && event.target.closest('.video-overlay')) {
-                        event.preventDefault();
-                        const video = pasoElement.querySelector('video');
-                        const overlay = pasoElement.querySelector('.video-overlay');
-                        if (video.paused) {
-                            video.play();
-                            overlay.style.display = 'none';
-                        } else {
-                            video.pause();
-                            overlay.style.display = 'flex';
-                        }
-                    } else if (paso.id) {
-                        seleccionarPaso(paso.id);
-                    }
-                });
-
-                visualContainer.appendChild(pasoElement);
+                    visualContainer.appendChild(pasoElement);
+                }
             });
         })
         .catch(error => {
@@ -153,6 +168,8 @@ function cargarVisualizacionPasos(empresaId, departamentoId, procesoId) {
             visualContainer.innerHTML = '<p>Error al cargar los pasos. Por favor, intente de nuevo más tarde.</p>';
         });
 }
+
+
 
 function seleccionarPaso(pasoId) {
     const detalleVentana = window.open(`/detalle-paso?id=${pasoId}`, '_blank');
