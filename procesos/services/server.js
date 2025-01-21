@@ -659,17 +659,21 @@ app.get('/api/verificar-proceso', (req, res) => {
       if (row) {
           // Proceso encontrado
           res.json({
-              existeProceso: true,
-              id: row.id,
-              nombre: row.nombre
-          });
+            existeProceso: true,
+            id: row.id,
+            nombre: row.nombre,
+            descripcion: row.descripcion
+        });
+        
       } else {
           // Proceso no encontrado
           res.json({
-              existeProceso: false,
-              id: null,
-              nombre: null
-          });
+            existeProceso: false,
+            id: null,
+            nombre: null,
+            descripcion: null // Añadir este campo
+        });
+        
       }
   });
 });

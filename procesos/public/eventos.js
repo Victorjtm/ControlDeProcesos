@@ -581,16 +581,68 @@ document.addEventListener('DOMContentLoaded', function() {//eventos registro dep
 
  
 
-document.addEventListener('DOMContentLoaded', function() {// eventos registo procesos
+document.addEventListener('DOMContentLoaded', function() {
+    // eventos registro procesos
     console.log('DOMContentLoaded event fired procesos');
     const page = document.body.dataset.page;
     
     if (page === 'registroProcesos') {
         console.log('Cargando eventos para la página de registro de procesos');
 
+        // Función para deshabilitar todos los botones excepto el pulsado
+        function deshabilitarBotones(botonPulsado) {
+            const botones = document.querySelectorAll('button');
+            botones.forEach(boton => {
+                if (boton !== botonPulsado) {
+                    boton.disabled = true;
+                }
+            });
+        }
+
+        // Función para habilitar todos los botones
+        function habilitarBotones() {
+            console.log('Habilitando botones...');
+            const botones = document.querySelectorAll('button');
+            console.log('Botones encontrados:', botones.length);
+            botones.forEach(boton => {
+                boton.disabled = false;
+                console.log('Botón habilitado:', boton.id || boton.textContent);
+            });
+        }
+        
+
+        // Función para limpiar y deshabilitar campos de departamento y botón
+        function limpiarYDeshabilitarCampos() {
+            const departamentoIdInput = document.getElementById('departamento_id');
+            const nombreDepartamentoInput = document.getElementById('nombreDepartamento');
+            const asignarDepartamentoBtn = document.getElementById('mostrarDepartamentosProcesos');
+            
+            [departamentoIdInput, nombreDepartamentoInput].forEach(input => {
+                if (input) {
+                    input.value = '';
+                    input.disabled = true;
+                    input.title = "Selecciona una empresa primero";
+                }
+            });
+            
+            if (asignarDepartamentoBtn) {
+                asignarDepartamentoBtn.disabled = true;
+                asignarDepartamentoBtn.title = "Selecciona una empresa primero";
+            }
+        }
+
         // Event listener para el campo de ID de empresa
         const empresaIdInput = document.getElementById('empresa_id');
         if (empresaIdInput) {
+            empresaIdInput.addEventListener('input', () => {
+                // Limpiar el campo de nombre cuando se escribe en el campo de ID
+                const nombreEmpresaInput = document.getElementById('nombreEmpresa');
+                if (nombreEmpresaInput) {
+                    nombreEmpresaInput.value = '';
+                }
+                limpiarYDeshabilitarCampos();
+            });
+
             empresaIdInput.addEventListener('blur', verificarEmpresa);
         } else {
             console.error('El elemento con ID "empresa_id" no existe.');
@@ -599,6 +651,15 @@ document.addEventListener('DOMContentLoaded', function() {// eventos registo pro
         // Event listener para el campo de nombre de empresa
         const nombreEmpresaInput = document.getElementById('nombreEmpresa');
         if (nombreEmpresaInput) {
+            nombreEmpresaInput.addEventListener('input', () => {
+                // Limpiar el campo de ID cuando se escribe en el campo de nombre
+                const empresaIdInput = document.getElementById('empresa_id');
+                if (empresaIdInput) {
+                    empresaIdInput.value = '';
+                }
+                limpiarYDeshabilitarCampos();
+            });
+
             nombreEmpresaInput.addEventListener('blur', verificarEmpresa);
         } else {
             console.error('El elemento con ID "nombreEmpresa" no existe.');
@@ -607,6 +668,14 @@ document.addEventListener('DOMContentLoaded', function() {// eventos registo pro
         // Event listener para el campo de ID de departamento
         const departamentoIdInput = document.getElementById('departamento_id');
         if (departamentoIdInput) {
+            departamentoIdInput.addEventListener('input', () => {
+                // Limpiar el campo de nombre cuando se escribe en el campo de ID
+                const nombreDepartamentoInput = document.getElementById('nombreDepartamento');
+                if (nombreDepartamentoInput) {
+                    nombreDepartamentoInput.value = '';
+                }
+            });
+
             departamentoIdInput.addEventListener('blur', verificarDepartamento);
         } else {
             console.error('El elemento con ID "departamento_id" no existe.');
@@ -615,17 +684,17 @@ document.addEventListener('DOMContentLoaded', function() {// eventos registo pro
         // Event listener para el campo de nombre de departamento
         const nombreDepartamentoInput = document.getElementById('nombreDepartamento');
         if (nombreDepartamentoInput) {
+            nombreDepartamentoInput.addEventListener('input', () => {
+                // Limpiar el campo de ID cuando se escribe en el campo de nombre
+                const departamentoIdInput = document.getElementById('departamento_id');
+                if (departamentoIdInput) {
+                    departamentoIdInput.value = '';
+                }
+            });
+
             nombreDepartamentoInput.addEventListener('blur', verificarDepartamento);
         } else {
             console.error('El elemento con ID "nombreDepartamento" no existe.');
-        }
-
-        // Event listener para el campo de ID de proceso
-        const procesoIdInput = document.getElementById('proceso_id');
-        if (procesoIdInput) {
-            procesoIdInput.addEventListener('blur', verificarProceso);
-        } else {
-            console.error('El elemento con ID "proceso_id" no existe.');
         }
 
         // Event listener para el campo de nombre de proceso
@@ -636,10 +705,18 @@ document.addEventListener('DOMContentLoaded', function() {// eventos registo pro
             console.error('El elemento con ID "nombreProceso" no existe.');
         }
 
-        // Event listener para el boton asignado
+        // Event listener para el botón asignado
         const asignadoBtn = document.getElementById('asignado');
         if (asignadoBtn) {
-            asignadoBtn.addEventListener('click', verificarAsociacionProceso);
+            asignadoBtn.addEventListener('click', function() {
+                deshabilitarBotones(this);
+                verificarAsociacionProceso()
+                    .then(() => habilitarBotones())
+                    .catch(error => { 
+                        console.error(error); 
+                        habilitarBotones(); 
+                    });
+            });
         } else {
             console.error('El botón "asignado" no se encontró en el DOM.');
         }
@@ -647,36 +724,59 @@ document.addEventListener('DOMContentLoaded', function() {// eventos registo pro
         // Event listener para botón mostrar departamentos
         const mostrarDepartamentosBtn = document.getElementById('mostrarDepartamentosProcesos');
         if (mostrarDepartamentosBtn) {
-            mostrarDepartamentosBtn.addEventListener('click', manejarGestionDepartamentosProcesos);
+            mostrarDepartamentosBtn.addEventListener('click', function() {
+                deshabilitarBotones(this);
+                manejarGestionDepartamentosProcesos()
+                    .then(() => habilitarBotones())
+                    .catch(error => { 
+                        console.error(error); 
+                        habilitarBotones(); 
+                    });
+            });
         } else {
             console.log('El botón "Mostrar Departamentos Procesos" no se encontró en el DOM.');
         }
 
         // Nuevo event listener para el botón Volver
-const volverBtn = document.getElementById('volverButton');
-if (volverBtn) {
-    volverBtn.addEventListener('click', function() {
-        window.history.back();
-    });
-} else {
-    console.error('El botón "Volver" no se encontró en el DOM.');
-}
+        const volverBtn = document.getElementById('volverButton');
+        if (volverBtn) {
+            volverBtn.addEventListener('click', function() {
+                window.history.back();
+            });
+        } else {
+            console.error('El botón "Volver" no se encontró en el DOM.');
+        }
 
         // Event listener para botón mostrar empresas de procesos
-const mostrarEmpresasProcesosBtn = document.getElementById('mostrarEmpresasProcesos');
-if (mostrarEmpresasProcesosBtn) {
-    mostrarEmpresasProcesosBtn.addEventListener('click', manejarGestionEmpresasProcesos);
+        const mostrarEmpresasProcesosBtn = document.getElementById('mostrarEmpresasProcesos');
+        if (mostrarEmpresasProcesosBtn) {
+            mostrarEmpresasProcesosBtn.addEventListener('click', function() {
+                deshabilitarBotones(this);
+                manejarGestionEmpresasProcesos()
+                    .then(() => habilitarBotones())
+                    .catch(error => { 
+                        console.error(error); 
+                        habilitarBotones(); 
+                    });
+            });
+        } else {
+            console.log('El botón "Mostrar Empresas Procesos" no se encontró en el DOM.');
+        }
+
+// Event listener para botón mostrar procesos
+const mostrarProcesosBtn = document.getElementById('mostrarProcesos');
+if (mostrarProcesosBtn) {
+    mostrarProcesosBtn.addEventListener('click', function() {
+        deshabilitarBotones(this);
+        manejarGestionProcesos()
+            .catch(error => { 
+                console.error('Error al manejar la gestión de procesos:', error); 
+            });
+    });
 } else {
-    console.log('El botón "Mostrar Empresas Procesos" no se encontró en el DOM.');
+    console.log('El botón "Mostrar Procesos" no se encontró en el DOM.');
 }
 
-        // Event listener para botón mostrar procesos
-        const mostrarProcesosBtn = document.getElementById('mostrarProcesos');
-        if (mostrarProcesosBtn) {
-            mostrarProcesosBtn.addEventListener('click', manejarGestionProcesos);
-        } else {
-            console.log('El botón "Mostrar Procesos" no se encontró en el DOM.');
-        }
 
         // Event listener para el formulario de registro de procesos
         const formulario = document.getElementById('registroProcesoForm');
@@ -694,17 +794,24 @@ if (mostrarEmpresasProcesosBtn) {
             console.error('El formulario de registro de procesos no se encontró en el DOM.');
         }
 
-        // Event listeners para la eliminacion de procesos
-        const eliminarProcesoBtn = document.getElementById('eliminarProceso');
-        if (eliminarProcesoBtn) {
-            eliminarProcesoBtn.addEventListener('click', manejarEliminacionProceso);
-        } else {
-            console.error('El botón "eliminarProceso" no se encontró en el DOM.');
-        }
-
-        //mostrarMensajeRegistroProceso();
+         // Event listeners para la eliminación de procesos
+         const eliminarProcesoBtn = document.getElementById('eliminarProceso');
+         if (eliminarProcesoBtn) {
+             eliminarProcesoBtn.addEventListener('click', function() {
+                 deshabilitarBotones(this);
+                 manejarEliminacionProceso()
+                     .then(() => habilitarBotones())
+                     .catch(error => { 
+                         console.error(error); 
+                         habilitarBotones(); 
+                     });
+             });
+         } else {
+             console.error('El botón "eliminarProceso" no se encontró en el DOM.');
+         }
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired pasosProceso');

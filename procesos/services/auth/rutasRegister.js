@@ -45,41 +45,37 @@ const registerRuta = async (req, res) => {
     let url_contenido = null;
     let tipo_contenido = null;
     if (archivo) {
+      // Asegúrate de que la URL comience con '/uploads/'
       url_contenido = '/uploads/' + path.basename(archivo.path);
       tipo_contenido = archivo.mimetype;
     }
 
     // Insertar la nueva ruta
     const rutaResult = await new Promise((resolve, reject) => {
-      db.run(
-        `
+      db.run(`
         INSERT INTO rutas (
           proceso_id, empresa_id, orden, descripcion_corta, descripcion_detallada, 
           tipo_contenido, url_contenido
         ) VALUES (?, ?, ?, ?, ?, ?, ?)
-      `,
-        [proceso_id, empresa_id, orden, descripcion_corta, descripcion_detallada, tipo_contenido, url_contenido],
-        function (err) {
-          if (err) reject(err);
-          else resolve(this.lastID);
-        }
-      );
+      `, [proceso_id, empresa_id, orden, descripcion_corta, descripcion_detallada, 
+          tipo_contenido, url_contenido],
+      function(err) {
+        if (err) reject(err);
+        else resolve(this.lastID);
+      });
     });
 
     // Insertar la asociación en rutas_procesos_departamentos
     await new Promise((resolve, reject) => {
-      db.run(
-        `
+      db.run(`
         INSERT INTO rutas_procesos_departamentos (
           ruta_id, proceso_id, departamento_id, empresa_id
         ) VALUES (?, ?, ?, ?)
-      `,
-        [rutaResult, proceso_id, departamento_id, empresa_id],
-        function (err) {
-          if (err) reject(err);
-          else resolve();
-        }
-      );
+      `, [rutaResult, proceso_id, departamento_id, empresa_id],
+      function(err) {
+        if (err) reject(err);
+        else resolve();
+      });
     });
 
     // Confirmar la transacción
@@ -91,6 +87,7 @@ const registerRuta = async (req, res) => {
     });
 
     res.status(200).json({ message: "Ruta registrada y asociada con éxito." });
+
   } catch (error) {
     console.error(error);
     await new Promise((resolve) => db.run('ROLLBACK', resolve));

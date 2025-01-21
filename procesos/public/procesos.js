@@ -146,31 +146,14 @@ function verificarProceso() {
                 if (data.existeProceso) {
                     document.getElementById('proceso_id').value = data.id || '';
                     document.getElementById('nombreProceso').value = data.nombre || '';
+                    document.getElementById('descripcionProceso').value = data.descripcion || '';
                     mensajeElement.textContent = 'Proceso encontrado.';
                     mensajeElement.style.color = 'blue';
                 } else {
-                    if (procesoId) {
-                        mensajeElement.textContent = 'No se puede registrar un proceso a un ID determinado ya que este es autocompletable.';
-                        mensajeElement.style.color = 'red';
-                        document.getElementById('proceso_id').value = ''; // Limpiar el campo ID
-                    } else if (nombreProceso) {
-                        if (confirm('Proceso no encontrado. ¿Desea crear un nuevo proceso?')) {
-                            document.getElementById('proceso_id').value = ''; // Limpiar el campo ID si existe
-                            const descripcionProceso = document.getElementById('descripcionProceso').value.trim();
-                            if (!descripcionProceso) {
-                                alert('Es necesario rellenar la descripción del proceso antes de proceder.');
-                                document.getElementById('descripcionProceso').focus();
-                            } else {
-                                // Aquí llamarías a la función para crear el nuevo proceso
-                                enviarFormularioProceso();
-                            }
-                        } else {
-                            document.getElementById('nombreProceso').value = '';
-                            document.getElementById('proceso_id').value = ''; // Limpiar el campo ID
-                            mensajeElement.textContent = 'Proceso no encontrado y no se creó uno nuevo.';
-                            mensajeElement.style.color = 'red';
-                        }
-                    }
+                    document.getElementById('proceso_id').value = '';
+                    document.getElementById('descripcionProceso').value = '';
+                    mensajeElement.textContent = 'Proceso no encontrado.';
+                    mensajeElement.style.color = 'red';
                 }
             })
             .catch(error => {
@@ -184,26 +167,44 @@ function verificarProceso() {
     }
 }
 
+
+
 function manejarGestionDepartamentosProcesos() {
     const departamentoListContainer = document.getElementById('departamentoList');
-    const isVisible = departamentoListContainer.style.display === 'block';
+    const mensajeContainer = document.getElementById('mensaje');
+    const departamentoIdInput = document.getElementById('departamento_id');
+    const nombreDepartamentoInput = document.getElementById('nombreDepartamento');
 
+    function habilitarCamposDepartamento(habilitar) {
+        departamentoIdInput.disabled = !habilitar;
+        nombreDepartamentoInput.disabled = !habilitar;
+    }
+
+    // Obtener el ID y el nombre de la empresa del formulario
+    const empresaIdInput = document.getElementById('empresa_id');
+    const empresaNombreInput = document.getElementById('nombreEmpresa');
+    const empresaId = empresaIdInput ? empresaIdInput.value : null;
+    const empresaNombre = empresaNombreInput ? empresaNombreInput.value : null;
+
+    // Comprobar si hay una empresa seleccionada
+    if (!empresaId || !empresaNombre) {
+        mensajeContainer.innerHTML = '<p class="alert alert-warning">Por favor, selecciona una empresa primero.</p>';
+        habilitarCamposDepartamento(false);
+        departamentoListContainer.style.display = 'none';
+        return;
+    }
+
+    // Si hay una empresa seleccionada, habilitar los campos de departamento
+    habilitarCamposDepartamento(true);
+    mensajeContainer.innerHTML = '';
+
+    // Manejar la visibilidad de la lista de departamentos
+    const isVisible = departamentoListContainer.style.display === 'block';
     if (!isVisible) {
         departamentoListContainer.style.display = 'block';
 
-        // Obtener el ID y el nombre de la empresa del formulario
-        const empresaIdInput = document.getElementById('empresa_id');
-        const empresaNombreInput = document.getElementById('nombreEmpresa');
-        const empresaId = empresaIdInput ? empresaIdInput.value : null;
-        const empresaNombre = empresaNombreInput ? empresaNombreInput.value : null;
-
-        if (!empresaId || !empresaNombre) {
-            departamentoListContainer.innerHTML = '<p>Por favor, selecciona una empresa primero.</p>';
-            return;
-        }
-
-        // Usar el nuevo endpoint con el ID de la empresa en la URL
-        fetch(`/api/departamentos/${empresaId}`, {
+        // Cargar los departamentos
+        fetch('/api/departamentos', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -224,10 +225,18 @@ function manejarGestionDepartamentosProcesos() {
                 data.forEach(departamento => {
                     const row = document.createElement('tr');
                     row.dataset.departamentoId = departamento.id;
+                    
+                    // Verificar si el departamento está asociado a la empresa seleccionada
+                    const estaAsociado = departamento.empresas.some(empresa => empresa.id === parseInt(empresaId));
+                    
+                    if (estaAsociado) {
+                        row.style.backgroundColor = 'lightgreen';
+                    }
+
                     row.innerHTML = `
                         <td>${departamento.id}</td>
                         <td>${departamento.nombre}</td>
-                        <td>${empresaNombre}</td>
+                        <td>${estaAsociado ? empresaNombre : 'No asociado'}</td>
                     `;
                     row.addEventListener('click', () => seleccionarDepartamentoProceso(departamento));
                     tbody.appendChild(row);
@@ -235,22 +244,22 @@ function manejarGestionDepartamentosProcesos() {
             } else {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="3">
-                            No se encontraron departamentos para la empresa ${empresaNombre}.
-                            <br><br>
-                            Por favor, ve al menú y selecciona "Crear Departamento" para añadir uno.
-                        </td>
+                        <td colspan="3">No se encontraron departamentos.</td>
                     </tr>`;
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            departamentoListContainer.innerHTML = `<p>Hubo un error al obtener la lista de departamentos: ${error.message}</p>`;
+            mensajeContainer.innerHTML = `<p class="alert alert-danger">Hubo un error al obtener la lista de departamentos: ${error.message}</p>`;
         });
     } else {
         departamentoListContainer.style.display = 'none';
     }
 }
+
+
+
+
 
 function seleccionarDepartamentoProceso(departamento) {
     // Actualizar campos de departamento
@@ -276,7 +285,15 @@ function seleccionarDepartamentoProceso(departamento) {
 
     // Ocultar la lista de departamentos
     document.getElementById('departamentoList').style.display = 'none';
+
+    // Habilitar el botón de asignaciones
+    const asignadoBtn = document.getElementById('asignado');
+    if (asignadoBtn) {
+        asignadoBtn.disabled = false; // Habilitar el botón
+        asignadoBtn.title = ""; // Limpiar el título si estaba deshabilitado
+    }
 }
+
 
 function manejarGestionProcesos() {
     const procesoListContainer = document.getElementById('procesoList');
@@ -371,10 +388,35 @@ function seleccionarProceso(proceso) {
             console.error('Error al obtener asociaciones:', error);
             mensajeElemento.textContent = `Error al obtener asociaciones para el proceso "${proceso.nombre}".`;
             mensajeElemento.style.color = 'red';
+        })
+        .finally(() => {
+            document.getElementById('procesoList').style.display = 'none';
+            
+            // Habilitar botones individualmente
+            const botonesIds = ['asignado', 'eliminarProceso', 'volverButton', 'mostrarProcesos', 'mostrarDepartamentosProcesos', 'mostrarEmpresasProcesos'];
+            botonesIds.forEach(id => {
+                const boton = document.getElementById(id);
+                if (boton) {
+                    boton.disabled = false;
+                    console.log(`Botón ${id} habilitado`);
+                } else {
+                    console.warn(`Botón con id ${id} no encontrado`);
+                }
+            });
+            
+            // Habilitar el botón de tipo submit (Registrar)
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = false;
+                console.log('Botón Registrar habilitado');
+            } else {
+                console.warn('Botón Registrar no encontrado');
+            }
         });
-
-    document.getElementById('procesoList').style.display = 'none';
 }
+
+
+
 
 function mostrarProcesosPorEmpresaYDepartamento() {
     const empresaId = document.getElementById('empresa_id').value;
@@ -538,6 +580,33 @@ function verificarEmpresa() {
     const valorBusqueda = empresaId || nombreEmpresa;
     console.log(`Verificando empresa por ${inputUsado}:`, valorBusqueda);
 
+    // Función para habilitar/deshabilitar campos de departamento y el botón de asignar departamentos
+    function actualizarEstadoCampos(habilitar) {
+        const departamentoIdInput = document.getElementById('departamento_id');
+        const nombreDepartamentoInput = document.getElementById('nombreDepartamento');
+        const asignarDepartamentoBtn = document.getElementById('mostrarDepartamentosProcesos');
+
+        // Habilitar o deshabilitar los campos de departamento
+        [departamentoIdInput, nombreDepartamentoInput].forEach(elemento => {
+            if (elemento) {
+                elemento.disabled = !habilitar;
+                if (habilitar) {
+                    elemento.removeAttribute('title');
+                } else {
+                    elemento.title = "Selecciona una empresa primero";
+                }
+            }
+        });
+
+        // Solo habilitar el botón de asignar departamentos
+        if (asignarDepartamentoBtn) {
+            asignarDepartamentoBtn.disabled = !habilitar;
+            if (!habilitar) {
+                asignarDepartamentoBtn.title = "Selecciona y verifica una empresa primero";
+            }
+        }
+    }
+
     if (valorBusqueda) {
         fetch(`/verificar-empresa/${inputUsado}/${encodeURIComponent(valorBusqueda)}`)
             .then(response => {
@@ -551,23 +620,21 @@ function verificarEmpresa() {
                 const mensajeElemento = document.getElementById('mensaje');
                 if (data.exists) {
                     console.log('Empresa encontrada, rellenando campos');
-                    // Rellenar los campos del formulario con los datos de la empresa
                     document.getElementById('empresa_id').value = data.id || '';
                     document.getElementById('nombreEmpresa').value = data.nombre || '';
-                    // Almacenar el ID de la empresa en la variable global
                     empresaIdActual = data.id;
                     console.log('ID de empresa almacenado:', empresaIdActual);
                     mensajeElemento.textContent = 'Empresa encontrada. Se han rellenado los campos.';
                     mensajeElemento.style.color = 'blue';
+                    actualizarEstadoCampos(true); // Habilitar campos y botón de asignar departamentos
                 } else {
-                    // Limpiar los campos si la empresa no existe
                     document.getElementById('empresa_id').value = '';
                     document.getElementById('nombreEmpresa').value = '';
-                    // Resetear el ID de la empresa actual
                     empresaIdActual = null;
                     console.log('ID de empresa reseteado');
                     mensajeElemento.textContent = 'Empresa no encontrada.';
                     mensajeElemento.style.color = 'red';
+                    actualizarEstadoCampos(false); // Deshabilitar campos y botón
                 }
             })
             .catch(error => {
@@ -575,9 +642,15 @@ function verificarEmpresa() {
                 const mensajeElemento = document.getElementById('mensaje');
                 mensajeElemento.textContent = `Error al verificar la empresa: ${error.message}`;
                 mensajeElemento.style.color = 'red';
+                actualizarEstadoCampos(false); // Deshabilitar campos y botón
             });
+    } else {
+        actualizarEstadoCampos(false); // Deshabilitar campos y botón
     }
 }
+
+
+
 
 function verificarDepartamento() {
     const departamentoId = document.getElementById("departamento_id").value.trim();
@@ -677,9 +750,17 @@ function seleccionarEmpresaParaProceso(empresa) {
         verificarAsociacion();
     } else {
         // Si no hay un proceso seleccionado, podrías querer mostrar los procesos de esta empresa
-        //manejarGestionProcesosPorEmpresa(empresa.id);
+        // manejarGestionProcesosPorEmpresa(empresa.id);
+    }
+
+    // Habilitar solo el botón de asignar departamentos
+    const asignarDepartamentoBtn = document.getElementById('mostrarDepartamentosProcesos');
+    if (asignarDepartamentoBtn) {
+        asignarDepartamentoBtn.disabled = false; // Habilitar el botón
+        asignarDepartamentoBtn.title = ""; // Limpiar el título si estaba deshabilitado
     }
 }
+
 
 function manejarGestionProcesosPorEmpresa(empresaId) {
     const procesoListContainer = document.getElementById('procesoList');
@@ -878,7 +959,7 @@ function mostrarProcesosPorEmpresaYDepartamento(empresaId, departamentoId, proce
     mensajeElemento.textContent = `Se encontraron ${procesos.length} proceso(s) para la empresa y departamento seleccionados. Seleccione un proceso:`;
 }
 
-function seleccionarProceso(proceso) {
+/*function seleccionarProceso(proceso) {
     console.log('Proceso seleccionado:', proceso);
 
     document.getElementById('proceso_id').value = proceso.id || '';
@@ -895,6 +976,6 @@ function seleccionarProceso(proceso) {
     console.log('Valores establecidos:', {
         proceso_id: document.getElementById('proceso_id').value,
         nombreProceso: document.getElementById('nombreProceso').value,
-        descripcionProceso: document.getElementById('descripcionProceso').value
+        deSscripcionProceso: document.getElementById('descripcionProceso').value
     });
-}
+}*/

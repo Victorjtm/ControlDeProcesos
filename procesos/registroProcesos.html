@@ -2,23 +2,93 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
     <title>Formulario de Registro de Procesos</title>
-    <link rel="stylesheet" href="/registro.css" />
-    <style>
-        .form-group button {
-            margin-right: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/procesos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body data-page="registroProcesos">
     <header>
-        <div id="user-info">
-            <h1>Registro de Procesos</h1>
-        </div>
+        <ul>
+            <div id="user-info">
+                <i class="fas fa-user"></i>
+            </div>
+            <li>Procesos</li>
+            <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li id="token-timer">Tiempo restante: <span id="time-left"></span></li>
+        </ul>
     </header>
+
     <div class="container">
-        <div id="procesoList" style="display:none; margin-top: 20px;">
+        <form id="registroProcesoForm" action="/registroProceso" method="post" onsubmit="return validarFormularioProceso()">
+            <div class="form-group">
+                <label for="proceso_id">ID del Proceso:</label>
+                <input type="text" id="proceso_id" name="proceso_id" readonly />
+                <small class="error" id="procesoIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreProceso">Nombre del Proceso:</label>
+                <input type="text" id="nombreProceso" name="nombreProceso" required />
+                <small class="error" id="nombreError"></small>
+            </div>
+            <div class="form-group">
+                <label for="descripcionProceso">Descripción del Proceso:</label>
+                <textarea id="descripcionProceso" name="descripcionProceso" rows="2"></textarea>
+                <small class="error" id="descripcionError"></small>
+            </div>
+            <div class="form-group">
+                <label for="departamento_id">ID del Departamento:</label>
+                <input type="text" id="departamento_id" name="departamento_id" disabled />
+                <small class="error" id="departamentoIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreDepartamento">Nombre del Departamento:</label>
+                <input type="text" id="nombreDepartamento" name="nombreDepartamento" disabled />
+                <small class="error" id="departamentoNombreError"></small>
+            </div>            
+            <div class="form-group">
+                <label for="empresa_id">ID de la Empresa:</label>
+                <input type="text" id="empresa_id" name="empresa_id" />
+                <small class="error" id="empresaIdError"></small>
+            </div>
+            <div class="form-group">
+                <label for="nombreEmpresa">Nombre de la Empresa:</label>
+                <input type="text" id="nombreEmpresa" name="nombreEmpresa" />
+                <small class="error" id="empresaNombreError"></small>
+            </div>
+            <div class="form-group" id="mensaje"></div>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-green">
+                    <i class="fas fa-save"></i> Registrar
+                </button>
+                <button type="button" id="asignado" class="btn btn-blue">
+                    <i class="fas fa-tasks"></i> Asignaciones
+                </button>
+                <button type="button" id="eliminarProceso" class="btn btn-red">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </button>
+                <button type="button" id="volverButton" class="btn btn-gray">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+                <button type="button" id="mostrarProcesos" class="btn btn-orange">
+                    <i class="fas fa-list"></i> Mostrar Procesos
+                </button>
+
+                <div class="asignacion-buttons">
+                    <button type="button" id="mostrarDepartamentosProcesos" class="btn btn-gray" disabled>
+                        <i class="fas fa-clipboard"></i> Asignar Departamento
+                    </button>
+                    <button type="button" id="mostrarEmpresasProcesos" class="btn btn-gray">
+                        <i class="fas fa-clipboard"></i> Asignar Empresa
+                    </button>
+                    <small class="asignacion-description">Asignan sin comprobar asociación</small>
+                </div>
+            </div>
+        </form>
+
+        <div id="procesoList" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -34,8 +104,7 @@
             </table>
         </div>
 
-        <div id="departamentoList" style="display:none; margin-top: 20px;">
-            <!-- Aquí se mostrará la lista de departamentos -->
+        <div id="departamentoList" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -50,8 +119,7 @@
             </table>
         </div>
 
-        <div id="empresaList" style="display:none; margin-top: 20px;">
-            <!-- Aquí se mostrará la lista de empresas -->
+        <div id="empresaList" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -98,60 +166,18 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
-        <form id="registroProcesoForm" action="/registroProceso" method="post" onsubmit="return validarFormularioProceso()">
-            <h2>Formulario de Registro de Procesos</h2>
-            <div class="form-group">
-                <label for="proceso_id">ID del Proceso:</label>
-                <input type="text" id="proceso_id" name="proceso_id" />
-                <small class="error" id="procesoIdError"></small>
-            </div>
-            <div class="form-group">
-                <label for="nombreProceso">Nombre del Proceso:</label>
-                <input type="text" id="nombreProceso" name="nombreProceso" required />
-                <small class="error" id="nombreError"></small>
-            </div>
-            <div class="form-group">
-                <label for="descripcionProceso">Descripción del Proceso:</label>
-                <textarea id="descripcionProceso" name="descripcionProceso" rows="2"></textarea>
-                <small class="error" id="descripcionError"></small>
-            </div>
-            <div class="form-group">
-                <label for="departamento_id">ID del Departamento:</label>
-                <input type="text" id="departamento_id" name="departamento_id" />
-                <small class="error" id="departamentoIdError"></small>
-            </div>
-            <div class="form-group">
-                <label for="nombreDepartamento">Nombre del Departamento:</label>
-                <input type="text" id="nombreDepartamento" name="nombreDepartamento" />
-                <small class="error" id="departamentoNombreError"></small>
-            </div>
-            <div class="form-group">
-                <label for="empresa_id">ID de la Empresa:</label>
-                <input type="text" id="empresa_id" name="empresa_id" />
-                <small class="error" id="empresaIdError"></small>
-            </div>
-            <div class="form-group">
-                <label for="nombreEmpresa">Nombre de la Empresa:</label>
-                <input type="text" id="nombreEmpresa" name="nombreEmpresa" />
-                <small class="error" id="empresaNombreError"></small>
-            </div>
-            <div class="form-group" id="mensaje"></div>
-            <button type="submit">Registrar</button>
-            <button type="button" id="asignado">Asignaciones</button>
-            <button type="button" id="eliminarProceso">Eliminar</button>
-            <button type="button" id="volverButton">Volver</button>
-            <button type="button" id="mostrarProcesos">Mostrar Procesos</button>
-            <div class="asignacion-buttons">
-                <button type="button" id="mostrarDepartamentosProcesos">Asignar Departamento</button>
-                <button type="button" id="mostrarEmpresasProcesos">Asignar Empresa</button>
-                <small class="asignacion-description">Asignan sin comprobar asociación</small>
-            </div>
-            
-            </form>
-            </div>
-
-    <script src="checkuser.js"></script>
+    <script src="/login.js"></script>
+    <script src="/checkuser.js"></script>
+    <script src="/checkLongeado.js"></script>
+    <script type="module">
+        import { showMessage, startTokenExpirationTimer } from './login.js';
+        window.showMessage = showMessage;
+        window.startTokenExpirationTimer = startTokenExpirationTimer;
+    
+        startTokenExpirationTimer();
+    </script>
     <script src="obtenerUsuarioLogueado.js"></script>
     <script src="obtenerNivelPrivilegio.js"></script>
     <script src="validacionProcesos.js"></script>

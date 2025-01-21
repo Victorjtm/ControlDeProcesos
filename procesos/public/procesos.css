@@ -1,0 +1,352 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding-top: 60px; /* Espacio para el header fijo */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Estilos del encabezado */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+header ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+header ul > li {
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+/* Estilo del título central */
+header ul > li:nth-child(2) {
+    font-family: 'Orbitron', sans-serif;
+    color: #e6e6ff;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #e6e6ff, 0 0 30px #ffffff;
+}
+
+/* Estilos para la información del usuario */
+#user-info {
+    color: #39FF14 !important;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#user-info span {
+    color: #28a745 !important;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+#user-info i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* Estilos para el botón de logout */
+#logout {
+    color: #fff;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s ease;
+}
+
+#logout:hover {
+    color: #dc3545;
+}
+
+#logout, #token-timer {
+    color: white;
+    flex-shrink: 0;
+}
+
+#time-left {
+    min-width: 50px;
+    display: inline-block;
+    text-align: right;
+}
+
+/* Estilos del contenedor principal */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    background-color: rgb(189, 187, 187);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Estilos para inputs y textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+    width: calc(100% - 12px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+textarea#descripcionProceso {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[readonly], textarea[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    border: 1px solid #ddd;
+}
+
+/* Estilos para botones */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+button i {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+/* Estilos específicos para botones */
+#asignado { background-color: #28a745; }
+#asignado:hover { background-color: #218838; }
+#eliminarProceso { background-color: #dc3545; }
+#eliminarProceso:hover { background-color: #c82333; }
+#volverButton { background-color: #f8f9fa; color: #007bff; }
+#volverButton:hover { background-color: #e2e6ea; }
+#mostrarProcesos { background-color: #ffc107; color: #212529; }
+#mostrarProcesos:hover { background-color: #e0a800; }
+
+/* Estilos para botones de asignación */
+.asignacion-buttons button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.asignacion-buttons button:hover {
+    background-color: #5a6268;
+}
+
+/* Contenedor de botones */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    gap: 10px;
+}
+
+.asignacion-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+}
+
+.asignacion-buttons button {
+    margin-bottom: 5px;
+}
+
+.asignacion-description {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.asignacion-buttons button:disabled {
+    background-color: #a9a9a9;
+    color: #d3d3d3;
+}
+
+
+/* Estilos para mensajes de error */
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container > * {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+    animation-delay: calc(var(--delay) * 0.1s);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    body { font-size: 14px; }
+    
+    header ul {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    header ul > li:nth-child(2) {
+        order: -1;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        letter-spacing: 1px;
+    }
+
+    #user-info, #logout { flex-basis: 50%; }
+
+    .container { gap: 15px; padding: 15px; }
+
+    .button-container {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    button { width: 100%; margin: 0; }
+}
+
+@media (min-width: 769px) {
+    .container {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    button {
+        width: auto;
+        padding: 10px 20px;
+    }
+}
+
+/* Estilos comunes para las tablas de procesos, departamentos y empresas */
+#procesoList, #departamentoList, #empresaList, #contenedorAsociaciones, #contenedorProcesos {
+    margin-top: 20px;
+    width: 100%;
+}
+
+#procesoList table, #departamentoList table, #empresaList table, #tablaAsociaciones, #tablaProcesos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#procesoList th, #departamentoList th, #empresaList th, #tablaAsociaciones th, #tablaProcesos th,
+#procesoList td, #departamentoList td, #empresaList td, #tablaAsociaciones td, #tablaProcesos td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+#procesoList th, #departamentoList th, #empresaList th, #tablaAsociaciones th, #tablaProcesos th {
+    background-color: #007bff;
+    color: white;
+}
+
+#procesoList tr:hover, #departamentoList tr:hover, #empresaList tr:hover, #tablaAsociaciones tr:hover, #tablaProcesos tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+/* Estilos específicos para la tabla de procesos */
+#procesoList .proceso-nombre {
+    font-weight: bold;
+}
+
+#procesoList .proceso-descripcion {
+    font-style: italic;
+    color: #666;
+}
+
+#procesoList .proceso-departamento {
+    color: #007bff;
+}
+
+#procesoList .proceso-empresa {
+    color: #6c757d;
+}
